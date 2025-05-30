@@ -1,13 +1,22 @@
 #include <iostream>
 #include <string>
 
-#include "./commandHandler.cpp"
-#include "./display.cpp"
+#include "./console.cpp"
+//#include "./display.cpp"
+//#include "./commandHandler.cpp"
 
 /*	The main screen for the operating system.
 	@return				Should always return zero.
 */
+
 int main() {
+	while (ConsoleHandler->isRunning()) {
+		ConsoleHandler->run();
+	}
+
+	return 0;
+
+	/*
 	int OS_RUNNING = 1;
 
 	refresh();
@@ -48,4 +57,5 @@ int main() {
 	}
 
 	return 0;
+	*/
 }

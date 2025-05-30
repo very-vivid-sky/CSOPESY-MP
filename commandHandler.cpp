@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
-enum CommandType { unknown, initialize, screen, scheduler_test, scheduler_stop, report_util, clear, exit_os };
+enum CommandType { unknown, initialize, screen, scheduler_test, scheduler_stop, report_util, clear, exit_menu };
 
 class Command {
 	public:
@@ -18,6 +19,13 @@ class Command {
 		int getSize() { return size; };
 		std::string getRaw() { return raw; };
 		std::string* getTokens() { return tokens; };
+		std::string getToken(int idx) {
+			if (0 > idx || idx >= size) {
+				throw std::out_of_range("Out of range of Command's tokens");
+			} else {
+				return tokens[idx];
+			}
+		}
 
 		// Bool, checks if has flag or text in its tokens
 		bool hasFlag(std::string flag) {
@@ -38,7 +46,7 @@ class Command {
 		// Gets the command type
 		CommandType initializeType() {
 			std::string command = tokens[0];
-			
+
 			// figure out which command this is
 			if (command == "initialize") { type = initialize; }
 			else if (command == "screen") { type = screen; }
@@ -46,7 +54,7 @@ class Command {
 			else if (command == "scheduler-stop") { type = scheduler_stop; }
 			else if (command == "report-util") { type = report_util; }
 			else if (command == "clear") { type = clear; }
-			else if (command == "exit") { type = exit_os; }
+			else if (command == "exit") { type = exit_menu; }
 			else { type = unknown; }
 			
 			return type;
@@ -74,7 +82,3 @@ class Command {
 		}
 		
 };
-
-bool commandHasFlag(std::string command) {
-	
-}

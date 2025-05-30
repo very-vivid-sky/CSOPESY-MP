@@ -47,8 +47,6 @@ void refresh() {
 	// using system is unsafe and this command only works in windows, not unix.
 	// TODO find a safer solution
 	system("cls");
-
-	displayHeader();
 }
 
 /*	This function gets a string input.
