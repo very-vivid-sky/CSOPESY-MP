@@ -76,13 +76,11 @@ void MainMenuConsole::run() {
 			case screen:
 				if (currCommand.hasFlag("-r")) {
 					if (currCommand.getSize() < 3) { std::cout << "Invalid command format.\n"; break; }
-					std::cout << "Recognized 'screen -r'. Doing something.\n\n";
 					ConsoleHandler->addAndGotoConsole(new ScreenConsole( currCommand.getToken(2) ));
 					return;
 				}
 				else if (currCommand.hasFlag("-s")) {
 					if (currCommand.getSize() < 3) { std::cout << "Invalid command format.\n"; break; }
-					std::cout << "Recognized 'screen -s'. Doing something.\n\n";
 					ConsoleHandler->addAndGotoConsole(new ScreenConsole( currCommand.getToken(2) ));
 					return;
 				}
