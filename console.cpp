@@ -66,9 +66,6 @@ MainMenuConsole::MainMenuConsole() {
 };
 void MainMenuConsole::run() {
 
-	// debug
-	ConsoleHandler->addConsole(new ScreenConsole("1"));
-
 	while (true) {
 		std::string input = getInputWithPrompt("Input command");
 		std::string processName;
