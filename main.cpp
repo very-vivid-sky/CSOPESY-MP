@@ -10,6 +10,7 @@
 */
 
 int main() {
+	displayHeader();
 	while (ConsoleHandler->isRunning()) {
 		ConsoleHandler->run();
 	}

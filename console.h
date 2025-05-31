@@ -4,17 +4,22 @@
 #include <string>
 #include <ctime>
 
+enum ConsoleType { c_Undefined, c_MainMenu, c_Screen };
+
 class Console {
 	public:
 		Console();
+		Console(std::string newName);
 		virtual void run();
 		~Console();
 
 		std::string getName();
+		ConsoleType getType();
 		void setName(std::string newName);
 
 	protected:
 		std::string name;
+		ConsoleType type;
 };
 
 class ConsoleHandlerClass {
@@ -24,6 +29,10 @@ class ConsoleHandlerClass {
 		void runConsole();
 		void addConsole(Console* c);
 		void addAndGotoConsole(Console* c);
+		int searchForConsole(std::string consoleName);
+		Console* getConsole(int i);
+		Console* getCurrentConsole();
+		void setCurrentConsole(int i);
 		void gotoMainMenu();
 		void run();
 		void closeConsole(Console* c);
@@ -38,6 +47,7 @@ class ConsoleHandlerClass {
 
 class MainMenuConsole : public Console {
 	public:
+		MainMenuConsole();
 		void run();
 };
 
@@ -45,7 +55,10 @@ class ScreenConsole : public Console {
 	public:
 		ScreenConsole(std::string newName);
 		void run();
+		void setTimestampToNow();
 		void displayProcesses();
+	private:
+		std::string timestamp;
 };
 
 #endif
