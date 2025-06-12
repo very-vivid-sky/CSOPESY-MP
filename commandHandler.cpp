@@ -94,7 +94,7 @@ void runCommandHandler() {
             screen_ls();
             break;
 
-        case scheduler_test:
+        case scheduler_test: 
             runSchedulerTest();
             break;
 

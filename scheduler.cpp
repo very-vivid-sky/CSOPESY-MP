@@ -43,10 +43,10 @@ atomic<bool> emulatorRunning(true);
 unordered_map<Process*, int> processCoreMap;
 
 string getCurrentTimeString() {
-   	time_t now = time(0);
-	char now_c[24];
-	strftime(now_c, 24, "%m/%d/%Y, %I:%M:%S %p", localtime(&now));
-	return std::string(now_c);
+    time_t now = time(0);
+    char now_c[24];
+    strftime(now_c, 24, "%m/%d/%Y, %I:%M:%S %p", localtime(&now));
+    return std::string(now_c);
 }
 
 // Simulates a CPU core
@@ -140,32 +140,42 @@ void screen_ls() {
                 coreId = processCoreMap[proc];
             }
         }
-        cout << proc->name << "     " << getCurrentTimeString() << "       "
+        cout << proc->name << "     (" << getCurrentTimeString() << ")       "
             << "Core: " << coreId
             << "         " << proc->executedCommands << " / " << proc->totalCommands << "\n";
     }
 
     cout << "\nFinished processes:\n";
     for (auto* proc : finishedProcesses) {
-        cout << proc->name << "     " << getCurrentTimeString() << "       Finished         "
+        cout << proc->name << "     (" << getCurrentTimeString() << ")       Finished         "
             << proc->executedCommands << " / " << proc->totalCommands << "\n";
     }
-    cout << "--------------------------------------------------------------------------------------------\n";
+    cout << "-------------------------------------------------------------------------------------\n";
 }
 
 
-    void runSchedulerTest() {
-        thread scheduler(schedulerThread);
+void runSchedulerTest() {
+    thread scheduler(schedulerThread);
 
-        vector<thread> cpuThreads;
-        for (int i = 0; i < NUM_CORES; i++) {
-            cpuThreads.emplace_back(cpuWorker, i);
-        }
-
-        scheduler.join();
-        for (auto& t : cpuThreads) {
-            t.join();
-        }
-
-        cout << "All processes finished execution.\n";
+    vector<thread> cpuThreads;
+    for (int i = 0; i < NUM_CORES; i++) {
+        cpuThreads.emplace_back(cpuWorker, i);
     }
+
+    thread monitor([]() {
+        while (schedulerRunning || !readyQueue.empty() || !runningProcesses.empty()) {
+            screen_ls();
+            this_thread::sleep_for(chrono::milliseconds(500));
+        }
+       
+        screen_ls();
+        });
+
+    scheduler.join();
+    for (auto& t : cpuThreads) {
+        t.join();
+    }
+
+    monitor.join(); 
+    cout << "All processes finished execution.\n";
+}
