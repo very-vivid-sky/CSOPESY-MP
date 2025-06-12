@@ -1,19 +1,18 @@
 #include <iostream>
 #include <string>
 
-#include "./console.cpp"
-//#include "./display.cpp"
-//#include "./commandHandler.cpp"
-
-/*	The main screen for the operating system.
-	@return				Should always return zero.
-*/
+#include "console.cpp"
+#include "scheduler.h" 
 
 int main() {
-	displayHeader();
-	while (ConsoleHandler->isRunning()) {
-		ConsoleHandler->run();
-	}
+    displayHeader();
 
-	return 0;
+    while (ConsoleHandler->isRunning()) {
+        ConsoleHandler->run();
+
+        runSchedulerTest();
+        screen_ls();
+    }
+
+    return 0;
 }
