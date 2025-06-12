@@ -43,11 +43,10 @@ atomic<bool> emulatorRunning(true);
 unordered_map<Process*, int> processCoreMap;
 
 string getCurrentTimeString() {
-    time_t now = time(0);
-    tm* ltm = localtime(&now);
-    stringstream ss;
-    ss << put_time(ltm, "(%m/%d/%Y %I:%M:%S%p)");
-    return ss.str();
+   	time_t now = time(0);
+	char now_c[24];
+	strftime(now_c, 24, "%m/%d/%Y, %I:%M:%S %p", localtime(&now));
+	return std::string(now_c);
 }
 
 // Simulates a CPU core
@@ -75,7 +74,7 @@ void cpuWorker(int coreId) {
             processCoreMap[proc] = coreId;
         }
 
-        string filename = proc->name + ".txt";
+        string filename = "./processes/" + proc->name + ".txt";
         ofstream logFile(filename, ios::app);
 
         while (proc->executedCommands < proc->totalCommands) {

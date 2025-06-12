@@ -1,2 +1,1 @@
-g++ -o run.exe main.cpp
-run.exe
+g++ -std=c++11 -o run.exe main.cpp

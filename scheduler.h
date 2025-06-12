@@ -11,4 +11,6 @@ extern std::condition_variable cv;
 extern std::atomic<bool> schedulerRunning;
 extern std::atomic<bool> emulatorRunning;
 
+#include "scheduler.cpp"
+
 #endif
