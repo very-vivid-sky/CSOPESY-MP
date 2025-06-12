@@ -5,6 +5,7 @@
 #include "./console.h"
 #include "./commandHandler.cpp"
 #include "./display.cpp"
+#include "./scheduler.h" 
 
 static ConsoleHandlerClass* ConsoleHandler = new ConsoleHandlerClass(8);
 
@@ -119,7 +120,9 @@ void MainMenuConsole::run() {
 				*/
 				break;
 			case scheduler_test:
-				std::cout << "Recognized 'scheduler-test'. Doing something.\n\n"; break;
+				runSchedulerTest();
+				screen_ls();
+				break;
 			case scheduler_stop:
 				std::cout << "Recognized 'scheduler-stop'. Doing something.\n\n"; break;
 			case report_util:
