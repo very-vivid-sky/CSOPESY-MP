@@ -12,7 +12,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <algorithm>
-
+#include "scheduler.h"
 #define NUM_CORES 4
 #define NUM_PROCESSES 10
 #define PRINTS_PER_PROCESS 100
@@ -33,8 +33,9 @@ vector<Process*> runningProcesses;
 vector<Process*> finishedProcesses;
 queue<Process*> readyQueue;
 
-mutex queueMutex;
-mutex coreMapMutex;
+
+mutex queueMutex;   //protects readyQueue resource
+mutex coreMapMutex; //protects 
 condition_variable cv;
 atomic<bool> schedulerRunning(true);
 atomic<bool> emulatorRunning(true);
@@ -51,58 +52,73 @@ string getCurrentTimeString() {
 
 // Simulates a CPU core
 void cpuWorker(int coreId) {
-    while (schedulerRunning) {
-        Process* proc = nullptr;
+        while (schedulerRunning) {
+            Process* proc = nullptr;
 
-        {
-            unique_lock<mutex> lock(queueMutex);
-            cv.wait(lock, [] { return !readyQueue.empty() || !schedulerRunning; });
+            //get process from queue
+            {
+                unique_lock<mutex> lock(queueMutex);
+                cv.wait(lock, [] { return !readyQueue.empty() || !schedulerRunning; });
 
-            if (!schedulerRunning) break;
+                if (!schedulerRunning) break;
 
-            proc = readyQueue.front();
-            readyQueue.pop();
+                proc = readyQueue.front();
+                readyQueue.pop();
+            }
+
+            //mark process as running
+            {
+                lock_guard<mutex> lock(proc->mtx);
+                runningProcesses.push_back(proc);
+            }
+
+            //assign core to process
+            {
+                lock_guard<mutex> lock(coreMapMutex);
+                processCoreMap[proc] = coreId;
+            }
+
+            //simulate logging{} 
+            {
+                lock_guard<mutex> lock(proc->mtx);
+                string filename = "./processes/" + proc->name + ".txt";
+                ofstream logFile(filename, ios::app);
+                if (!logFile.is_open()) {
+                    std::cerr << "Failed to open log file: " << filename << std::endl;
+                    break; 
+                }else{
+                    while (proc->executedCommands < proc->totalCommands) 
+                    {
+                        string timestamp = getCurrentTimeString();
+                        logFile << timestamp + "\tCore: " + to_string(coreId) + "\t\"Hello World from " + proc->name + "!\"\n";
+                        this_thread::sleep_for(chrono::milliseconds(50));
+                        proc->executedCommands++;
+                    }
+                    logFile.close();
+                }
+
+            }
+                
+            //mark process as finished 
+            {
+                lock_guard<mutex> lock(proc->mtx);
+                proc->finished = true;
+                finishedProcesses.push_back(proc);
+                runningProcesses.erase(remove(runningProcesses.begin(), runningProcesses.end(), proc), runningProcesses.end());
+            }
+
+            // remove core assignment
+            {
+                lock_guard<mutex> lock(coreMapMutex);
+                processCoreMap.erase(proc);
+            }
         }
-
-        {
-            lock_guard<mutex> lock(proc->mtx);
-            runningProcesses.push_back(proc);
-        }
-
-        {
-            lock_guard<mutex> lock(coreMapMutex);
-            processCoreMap[proc] = coreId;
-        }
-
-        string filename = "./processes/" + proc->name + ".txt";
-        ofstream logFile(filename, ios::app);
-
-        while (proc->executedCommands < proc->totalCommands) {
-            string timestamp = getCurrentTimeString();
-            logFile << timestamp << "\tCore: " << coreId << "\t\"Hello World from " << proc->name << "!\"\n";
-            this_thread::sleep_for(chrono::milliseconds(10));
-            proc->executedCommands++;
-        }
-
-        logFile.close();
-
-        {
-            lock_guard<mutex> lock(proc->mtx);
-            proc->finished = true;
-            finishedProcesses.push_back(proc);
-            runningProcesses.erase(remove(runningProcesses.begin(), runningProcesses.end(), proc), runningProcesses.end());
-        }
-
-        {
-            lock_guard<mutex> lock(coreMapMutex);
-            processCoreMap.erase(proc);
-        }
-    }
 }
 
-// Schedules all processes in FCFS order
+// Creates and schedules all processes in FCFS order
 void schedulerThread() {
     for (int i = 0; i < NUM_PROCESSES; i++) {
+        //create the process
         auto* proc = new Process;
         proc->name = "process" + (i < 9 ? "0" + to_string(i + 1) : to_string(i + 1));
         proc->creationTime = time(0);
@@ -111,17 +127,18 @@ void schedulerThread() {
         proc->pid = i;
         proc->finished = false;
 
+        //add the processes to a readyQueue
         {
-            lock_guard<mutex> lock(queueMutex);
+            lock_guard<mutex> lock(queueMutex); //lock the readyQueue 
             readyQueue.push(proc);
         }
 
-        cv.notify_one(); // Notify a CPU core
-        this_thread::sleep_for(chrono::milliseconds(100)); // simulate spacing
+        cv.notify_one(); // Notify a CPU core , the next CPU core 
+        this_thread::sleep_for(chrono::milliseconds(500)); // simulate spacing
     }
 
     while (finishedProcesses.size() < NUM_PROCESSES) {
-        this_thread::sleep_for(chrono::milliseconds(100));
+        this_thread::sleep_for(chrono::milliseconds(500)); //run the processes
     }
 
     schedulerRunning = false;
@@ -153,29 +170,53 @@ void screen_ls() {
     cout << "-------------------------------------------------------------------------------------\n";
 }
 
-
+// FUNCTION BLOCK -- EXECUTES scheduler - test
 void runSchedulerTest() {
-    thread scheduler(schedulerThread);
+    // create a thread scheduler in FCFS order
+    thread scheduler(schedulerThread); 
 
+    // a vector of CPU cores thread
     vector<thread> cpuThreads;
+
+    // start process for running cores
     for (int i = 0; i < NUM_CORES; i++) {
         cpuThreads.emplace_back(cpuWorker, i);
     }
 
+    // lambda : no capture && no params 
+    // global variables : 
+    //  @schedulerRunning   ,   atomic<bool> 
+    //  @readyQueue         ,   queue<Process*>
+    //  @runningProcesses   ,   vector<Process*> 
+    // the monitor thread keeps on running the screen_ls() 
+    // while the scheduler is running, the readyQueue is not empty 
+    // all processes are not done executing
     thread monitor([]() {
-        while (schedulerRunning || !readyQueue.empty() || !runningProcesses.empty()) {
-            screen_ls();
+
+        std::string inputCommand; 
+        while (schedulerRunning || !readyQueue.empty() || !runningProcesses.empty() ) {
+            //screen_ls();
+
+            std::cout<< "\nEnter command: " ;
+            cin>>inputCommand;// >> inputCommand; 
+            if(inputCommand == "screen-ls")
+            {
+                screen_ls();
+            }else{
+                cout<< "Doing something" << endl;
+            }
             this_thread::sleep_for(chrono::milliseconds(500));
         }
-       
-        screen_ls();
         });
-
+       // screen_ls();
+    
+        
+    //synchronize threads
     scheduler.join();
     for (auto& t : cpuThreads) {
-        t.join();
+        t.join();   //ensure the CPU cores are done running the processes
     }
 
-    monitor.join(); 
+    monitor.join(); // ensures all logging are finished
     cout << "All processes finished execution.\n";
 }
