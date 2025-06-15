@@ -12,7 +12,12 @@
 #include <sstream>
 #include <unordered_map>
 #include <algorithm>
-#include "scheduler.h"
+
+#include <bits/stdc++.h>
+#include <iostream>
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #define NUM_CORES 4
 #define NUM_PROCESSES 10
 #define PRINTS_PER_PROCESS 100
@@ -39,6 +44,9 @@ mutex coreMapMutex; //protects
 condition_variable cv;
 atomic<bool> schedulerRunning(true);
 atomic<bool> emulatorRunning(true);
+atomic<bool> directoryCreated(false);
+
+
 
 // Track which core each process is running on
 unordered_map<Process*, int> processCoreMap;
@@ -81,7 +89,17 @@ void cpuWorker(int coreId) {
             //simulate logging{} 
             {
                 lock_guard<mutex> lock(proc->mtx);
-                string filename = "./processes/" + proc->name + ".txt";
+				string foldername = "./processes/";
+                
+				
+				// Creating a directory
+				if(!directoryCreated){
+					mkdir("processes");
+					directoryCreated = true;
+				}
+
+					
+				string filename = foldername + proc->name + ".txt";
                 ofstream logFile(filename, ios::app);
                 if (!logFile.is_open()) {
                     std::cerr << "Failed to open log file: " << filename << std::endl;
