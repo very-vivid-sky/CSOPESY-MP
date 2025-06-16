@@ -1,9 +1,13 @@
 #include <iostream>
 #include <string>
 
-#include "console.cpp"
+#include "scheduler.h"
+#include "console.h"
 
 int main() {
+    MainScheduler = new Scheduler();
+    MainScheduler->runSchedulerTest();
+
     displayHeader();
 
     while (ConsoleHandler->isRunning()) {

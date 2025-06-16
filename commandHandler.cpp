@@ -4,8 +4,6 @@
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
-#include <condition_variable> 
-#include "scheduler.h"
 
 // Define the available command types
 enum CommandType {
@@ -91,18 +89,20 @@ void runCommandHandler() {
             break;
 
         case screen:
-            screen_ls();
+            //screen_ls();
             break;
 
         case scheduler_test: 
-            runSchedulerTest();
+            //runSchedulerTest();
             break;
 
         case scheduler_stop:
+            /*
             std::cout << "Stopping scheduler...\n";
             schedulerRunning = false;
             emulatorRunning = false;
             cv.notify_all(); 
+            */
             break;
 
         case report_util:

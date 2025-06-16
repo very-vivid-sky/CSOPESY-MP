@@ -18,38 +18,21 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#define NUM_CORES 4
-#define NUM_PROCESSES 10
-#define PRINTS_PER_PROCESS 100
-
 using namespace std;
 
-struct Process {
-    string name;
-    time_t creationTime;
-    int totalCommands;
-    int executedCommands;
-    int pid;
-    bool finished;
-    mutex mtx;
-};
+static vector<Process*> runningProcesses;
+static vector<Process*> finishedProcesses;
+static queue<Process*> readyQueue;
 
-vector<Process*> runningProcesses;
-vector<Process*> finishedProcesses;
-queue<Process*> readyQueue;
-
-
-mutex queueMutex;   //protects readyQueue resource
-mutex coreMapMutex; //protects 
-condition_variable cv;
-atomic<bool> schedulerRunning(true);
-atomic<bool> emulatorRunning(true);
-atomic<bool> directoryCreated(false);
-
-
+static mutex queueMutex;   //protects readyQueue resource
+static mutex coreMapMutex; //protects 
+static condition_variable cv;
+static atomic<bool> schedulerRunning(true);
+static atomic<bool> emulatorRunning(true);
+static atomic<bool> directoryCreated(false);
 
 // Track which core each process is running on
-unordered_map<Process*, int> processCoreMap;
+static unordered_map<Process*, int> processCoreMap;
 
 string getCurrentTimeString() {
     time_t now = time(0);
@@ -59,7 +42,7 @@ string getCurrentTimeString() {
 }
 
 // Simulates a CPU core
-void cpuWorker(int coreId) {
+static void cpuWorker(int coreId) {
         while (schedulerRunning) {
             Process* proc = nullptr;
 
@@ -84,6 +67,7 @@ void cpuWorker(int coreId) {
             {
                 lock_guard<mutex> lock(coreMapMutex);
                 processCoreMap[proc] = coreId;
+				proc->currentCore = coreId;
             }
 
             //simulate logging{} 
@@ -128,19 +112,20 @@ void cpuWorker(int coreId) {
             // remove core assignment
             {
                 lock_guard<mutex> lock(coreMapMutex);
+				proc->currentCore = -1;
                 processCoreMap.erase(proc);
             }
         }
 }
 
 // Creates and schedules all processes in FCFS order
-void schedulerThread() {
-    for (int i = 0; i < NUM_PROCESSES; i++) {
+static void schedulerThread() {
+    for (int i = 0; i < MainScheduler->NUM_PROCESSES; i++) {
         //create the process
         auto* proc = new Process;
         proc->name = "process" + (i < 9 ? "0" + to_string(i + 1) : to_string(i + 1));
         proc->creationTime = time(0);
-        proc->totalCommands = PRINTS_PER_PROCESS;
+        proc->totalCommands = MainScheduler->PRINTS_PER_PROCESS;
         proc->executedCommands = 0;
         proc->pid = i;
         proc->finished = false;
@@ -155,7 +140,7 @@ void schedulerThread() {
         this_thread::sleep_for(chrono::milliseconds(500)); // simulate spacing
     }
 
-    while (finishedProcesses.size() < NUM_PROCESSES) {
+    while (finishedProcesses.size() < MainScheduler->NUM_PROCESSES) {
         this_thread::sleep_for(chrono::milliseconds(500)); //run the processes
     }
 
@@ -164,6 +149,7 @@ void schedulerThread() {
 }
 
 // Display running/finished processes
+/*
 void screen_ls() {
     cout << "-------------------------------------------------------------------------------------\n";
     cout << "Running processes:\n";
@@ -187,8 +173,10 @@ void screen_ls() {
     }
     cout << "-------------------------------------------------------------------------------------\n";
 }
+*/
 
 // FUNCTION BLOCK -- EXECUTES scheduler - test
+/*
 void runSchedulerTest() {
     // create a thread scheduler in FCFS order
     thread scheduler(schedulerThread); 
@@ -237,4 +225,63 @@ void runSchedulerTest() {
 
     monitor.join(); // ensures all logging are finished
     cout << "All processes finished execution.\n";
+}
+*/
+
+
+// Initializes a scheduler
+Scheduler::Scheduler() {
+    // create a thread scheduler in FCFS order
+    scheduler = thread(schedulerThread);
+	setAddresses(&runningProcesses, &finishedProcesses, &readyQueue);
+}
+
+// FUNCTION BLOCK -- EXECUTES scheduler - test
+void Scheduler::runSchedulerTest() {
+    // For every thread, run a cpuWorker
+    for (int i = 0; i < MainScheduler->NUM_CORES; i++) {
+        cpuThreads.emplace_back(cpuWorker, i);
+    }
+}
+
+// Sets addresses for global access
+void Scheduler::setAddresses(vector<Process*>* addr1, vector<Process*>* addr2, queue<Process*>* addr3) {
+	addr_runningProcesses = addr1;
+	addr_finishedProcesses = addr2;
+	addr_readyQueue = addr3;
+}
+
+vector<Process*>* Scheduler::getRunningProcesses() { return addr_runningProcesses; }
+vector<Process*>* Scheduler::getFinishedProcesses() { return addr_finishedProcesses; }
+queue<Process*>* Scheduler::getReadyQueue() { return addr_readyQueue; }
+
+// Outputs screen list
+void Scheduler::screenList(bool toFile) {
+	// TODO: toFile implementation for report-util command, toggled by toFile bool
+
+	cout << "-------------------------------------------------------------------------------------\n";
+	cout << "Running processes:\n";
+    for (auto* proc : runningProcesses) {
+        int coreId = -1;
+        {
+			/*
+            lock_guard<mutex> lock(coreMapMutex);
+            if (processCoreMap.find(proc) != processCoreMap.end()) {
+                coreId = processCoreMap[proc];
+			}
+			*/
+			coreId = proc->currentCore;
+        }
+        cout << proc->name << "     (" << getCurrentTimeString() << ")       "
+            << "Core: " << to_string(coreId)
+            << "         " << proc->executedCommands << " / " << proc->totalCommands << "\n";
+    }
+
+    cout << "\nFinished processes:\n";
+    for (auto* proc : finishedProcesses) {
+        cout << proc->name << "     (" << getCurrentTimeString() << ")       Finished         "
+            << proc->executedCommands << " / " << proc->totalCommands << "\n";
+    }
+    cout << "-------------------------------------------------------------------------------------\n";
+
 }

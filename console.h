@@ -61,4 +61,6 @@ class ScreenConsole : public Console {
 		std::string timestamp;
 };
 
+#include "console.cpp"
+
 #endif
