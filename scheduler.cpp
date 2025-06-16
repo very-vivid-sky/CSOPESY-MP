@@ -86,13 +86,17 @@ static void cpuWorker(int coreId) {
 				string filename = foldername + proc->name + ".txt";
                 ofstream logFile(filename, ios::app);
                 if (!logFile.is_open()) {
-                    std::cerr << "Failed to open log file: " << filename << std::endl;
+                    std::cerr << "Failed to open log file: " << filename << "\n";
                     break; 
                 }else{
+					// header
+					logFile << "Process name: " + proc->name +  "\n";
+					logFile << "Logs:\n" << "\n";
+
                     while (proc->executedCommands < proc->totalCommands) 
                     {
                         string timestamp = getCurrentTimeString();
-                        logFile << timestamp + "\tCore: " + to_string(coreId) + "\t\"Hello World from " + proc->name + "!\"\n";
+                        logFile << "(" << timestamp + ") \tCore: " + to_string(coreId) + "\t\"Hello World from " + proc->name + "!\"\n";
                         this_thread::sleep_for(chrono::milliseconds(50));
                         proc->executedCommands++;
                     }
