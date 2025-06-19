@@ -7,16 +7,21 @@
 
 #include "commandHandler.h"
 
+// Initializes, parses, and tokenizes command from string interpretation
 Command::Command(std::string newCommand)
     : raw(std::move(newCommand)), type(unknown) {
     tokenize();
     initializeType();
 }
 
+// Getter for command type
 CommandType Command::getType() { return type; }
+// Getter for size of this command (number of tokens)
 int Command::getSize() { return tokens.size(); }
+// Getter for raw string interpretation of this command
 std::string Command::getRaw() { return raw; }
 
+// Gets token by index
 std::string Command::getToken(int idx) {
     if (idx < 0 || idx >= static_cast<int>(tokens.size())) {
         throw std::out_of_range("Out of range of Command's tokens");
@@ -24,10 +29,13 @@ std::string Command::getToken(int idx) {
     return tokens[idx];
 }
 
+// Checks if this command has a certain flag or matches a string exactly
+// flag is a string, e.g. "-ls"
 bool Command::hasFlag(const std::string& flag) {
     return std::find(tokens.begin(), tokens.end(), flag) != tokens.end();
 }
 
+// Tokenizes this command by splitting it by spaces; places it to the tokens vector
 void Command::tokenize() {
     std::istringstream iss(raw);
     std::string token;
@@ -36,6 +44,7 @@ void Command::tokenize() {
     }
 }
 
+// Determines and initializes the type of this command via the first argument
 void Command::initializeType() {
     if (tokens.empty()) {
         type = unknown;
@@ -51,56 +60,4 @@ void Command::initializeType() {
     else if (command == "clear") type = clear;
     else if (command == "exit") type = exit_menu;
     else type = unknown;
-}
-
-void runCommandHandler() {
-    bool running = true;
-
-    while (running) {
-        std::cout << ">> ";
-        std::string input;
-        std::getline(std::cin, input);
-
-        Command cmd(input);
-
-        switch (cmd.getType()) {
-        case initialize:
-            std::cout << "Initialize command not yet implemented.\n";
-            break;
-
-        case screen:
-            //screen_ls();
-            break;
-
-        case scheduler_test: 
-            //runSchedulerTest();
-            break;
-
-        case scheduler_stop:
-            /*
-            std::cout << "Stopping scheduler...\n";
-            schedulerRunning = false;
-            emulatorRunning = false;
-            cv.notify_all(); 
-            */
-            break;
-
-        case report_util:
-            std::cout << "Report-util command not yet implemented.\n";
-            break;
-
-        case clear:
-            system("cls");
-            break;
-
-        case exit_menu:
-            std::cout << "Exiting...\n";
-            running = false;
-            break;
-
-        default:
-            std::cout << "Unknown command\n";
-            break;
-        }
-    }
 }

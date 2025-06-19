@@ -26,6 +26,7 @@ class Command {
 		std::string getRaw();
 		std::string getToken(int idx);
 		bool hasFlag(const std::string& flag);
+		std::string getArgumentByFlag(const std::string flag);
 
 	private:
 		std::string raw;
@@ -34,8 +35,6 @@ class Command {
 		void tokenize();
 		void initializeType();
 };
-
-void runCommandHandler();
 
 #include "commandhandler.cpp"
 #endif
