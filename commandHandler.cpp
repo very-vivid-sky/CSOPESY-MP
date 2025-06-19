@@ -5,73 +5,53 @@
 #include <algorithm>
 #include <stdexcept>
 
-// Define the available command types
-enum CommandType {
-    unknown,
-    initialize,
-    screen,
-    scheduler_test,
-    scheduler_stop,
-    report_util,
-    clear,
-    exit_menu
-};
+#include "commandHandler.h"
 
-// Command class that parses and stores command tokens
-class Command {
-public:
-    Command(std::string newCommand)
-        : raw(std::move(newCommand)), type(unknown) {
-        tokenize();
-        initializeType();
+Command::Command(std::string newCommand)
+    : raw(std::move(newCommand)), type(unknown) {
+    tokenize();
+    initializeType();
+}
+
+CommandType Command::getType() { return type; }
+int Command::getSize() { return tokens.size(); }
+std::string Command::getRaw() { return raw; }
+
+std::string Command::getToken(int idx) {
+    if (idx < 0 || idx >= static_cast<int>(tokens.size())) {
+        throw std::out_of_range("Out of range of Command's tokens");
+    }
+    return tokens[idx];
+}
+
+bool Command::hasFlag(const std::string& flag) {
+    return std::find(tokens.begin(), tokens.end(), flag) != tokens.end();
+}
+
+void Command::tokenize() {
+    std::istringstream iss(raw);
+    std::string token;
+    while (iss >> token) {
+        tokens.push_back(token);
+    }
+}
+
+void Command::initializeType() {
+    if (tokens.empty()) {
+        type = unknown;
+        return;
     }
 
-    CommandType getType() const { return type; }
-    int getSize() const { return tokens.size(); }
-    std::string getRaw() const { return raw; }
-
-    std::string getToken(int idx) const {
-        if (idx < 0 || idx >= static_cast<int>(tokens.size())) {
-            throw std::out_of_range("Out of range of Command's tokens");
-        }
-        return tokens[idx];
-    }
-
-    bool hasFlag(const std::string& flag) const {
-        return std::find(tokens.begin(), tokens.end(), flag) != tokens.end();
-    }
-
-private:
-    std::string raw;
-    CommandType type;
-    std::vector<std::string> tokens;
-
-    void tokenize() {
-        std::istringstream iss(raw);
-        std::string token;
-        while (iss >> token) {
-            tokens.push_back(token);
-        }
-    }
-
-    void initializeType() {
-        if (tokens.empty()) {
-            type = unknown;
-            return;
-        }
-
-        const std::string& command = tokens[0];
-
-        if (command == "initialize") type = initialize;
-        else if (command == "screen") type = screen;
-        else if (command == "scheduler-test") type = scheduler_test;
-        else if (command == "scheduler-stop") type = scheduler_stop;
-        else if (command == "report-util") type = report_util;
-        else if (command == "clear") type = clear;
-        else if (command == "exit") type = exit_menu;
-        else type = unknown;
-    }
-};
+    const std::string& command = tokens[0];
+    if (command == "initialize") type = initialize;
+    else if (command == "screen") type = screen;
+    else if (command == "scheduler-test") type = scheduler_test;
+    else if (command == "scheduler-stop") type = scheduler_stop;
+    else if (command == "report-util") type = report_util;
+    else if (command == "clear") type = clear;
+    else if (command == "exit") type = exit_menu;
+    else type = unknown;
+}
 
 void runCommandHandler() {
     bool running = true;

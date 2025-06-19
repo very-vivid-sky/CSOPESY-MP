@@ -22,35 +22,6 @@ class Console {
 		ConsoleType type;
 };
 
-class ConsoleHandlerClass {
-	public:
-		ConsoleHandlerClass(int s);
-		bool isRunning();
-		void runConsole();
-		void addConsole(Console* c);
-		void addAndGotoConsole(Console* c);
-		int searchForConsole(std::string consoleName);
-		Console* getConsole(int i);
-		Console* getCurrentConsole();
-		void setCurrentConsole(int i);
-		void gotoMainMenu();
-		void run();
-		void closeConsole(Console* c);
-
-	private:
-		int size;
-		Console* mainMenu;
-		Console* currentConsole;
-		Console** allConsoles;
-		bool* activeConsoles;
-};
-
-class MainMenuConsole : public Console {
-	public:
-		MainMenuConsole();
-		void run();
-};
-
 class ScreenConsole : public Console {
 	public:
 		ScreenConsole(std::string newName);

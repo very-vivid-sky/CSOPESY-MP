@@ -22,19 +22,20 @@ namespace {
 	};
 
 	// Static constants not to be modified outside of this cpp file
-	static int NUM_CPU = 4;
-	static SchedulerTypes SCHEDULER = rr;
-	static int QUANTUM_CYCLES = 5;
-	static int BATCH_PROCESS_FREQ = 1;
-	static int MIN_INS = 1000;
-	static int MAX_INS = 2000;
-	static int DELAY_PER_EXEC = 0;
+	static bool has_initialized = false;
+	static int NUM_CPU;
+	static SchedulerTypes SCHEDULER;
+	static int QUANTUM_CYCLES;
+	static int BATCH_PROCESS_FREQ;
+	static int MIN_INS;
+	static int MAX_INS;
+	static int DELAY_PER_EXEC;
 };
 
 
 
-// Initializes all variables; 
-void ConfigVariables::initConfig(std::string filePath) {
+// Initializes all variables
+void Config::initConfig(std::string filePath) {
 	std::ifstream configFile(filePath, std::ios::in);
 	// no file?
 	// TODO generic config file generation?
@@ -72,7 +73,8 @@ void ConfigVariables::initConfig(std::string filePath) {
 		}
 	}
 
-	// and close!
+	// flip bit and close!
+	has_initialized = true;
 	configFile.close();
 };
 
@@ -81,16 +83,18 @@ void ConfigVariables::initConfig(std::string filePath) {
 // cout << ConfigVariables::get_NUM_CPU();
 
 // Getter for the constant NUM_CPU
-int ConfigVariables::get_NUM_CPU() { return NUM_CPU; }
+int Config::get_NUM_CPU() { return NUM_CPU; }
 // Getter for the constant QUANTUM_CYCLES
-int ConfigVariables::get_QUANTUM_CYCLES() { return QUANTUM_CYCLES; }
+int Config::get_QUANTUM_CYCLES() { return QUANTUM_CYCLES; }
 // Getter for the constant BATCH_PROCESS_FREQ
-int ConfigVariables::get_BATCH_PROCESS_FREQ() { return BATCH_PROCESS_FREQ; }
+int Config::get_BATCH_PROCESS_FREQ() { return BATCH_PROCESS_FREQ; }
 // Getter for the constant MIN_INS
-int ConfigVariables::get_MIN_INS() { return MIN_INS; }
+int Config::get_MIN_INS() { return MIN_INS; }
 // Getter for the constant MAX_INS
-int ConfigVariables::get_MAX_INS() { return MAX_INS; }
+int Config::get_MAX_INS() { return MAX_INS; }
 // Getter for the constant DELAY_PER_EXEC
-int ConfigVariables::get_DELAY_PER_EXEC() { return DELAY_PER_EXEC; }
+int Config::get_DELAY_PER_EXEC() { return DELAY_PER_EXEC; }
 // Getter for the constant SCHEDULER
-SchedulerTypes ConfigVariables::get_SCHEDULER() { return SCHEDULER; }
+SchedulerTypes Config::get_SCHEDULER() { return SCHEDULER; }
+// Has the OS already ran initConfig?
+bool Config::get_initialization_status() { return has_initialized; }
