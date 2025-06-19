@@ -34,11 +34,14 @@ static atomic<bool> directoryCreated(false);
 // Track which core each process is running on
 static unordered_map<Process*, int> processCoreMap;
 
+string formatTime(time_t time) {
+    char time_c[24];
+    strftime(time_c, 24, "%m/%d/%Y, %I:%M:%S %p", localtime(&time));
+    return std::string(time_c);
+}
 string getCurrentTimeString() {
     time_t now = time(0);
-    char now_c[24];
-    strftime(now_c, 24, "%m/%d/%Y, %I:%M:%S %p", localtime(&now));
-    return std::string(now_c);
+	return formatTime(now);
 }
 
 // Simulates a CPU core
@@ -59,6 +62,7 @@ static void cpuWorker(int coreId) {
 
             //mark process as running
             {
+        		proc->creationTime = time(0);
                 lock_guard<mutex> lock(proc->mtx);
                 runningProcesses.push_back(proc);
             }
@@ -152,87 +156,6 @@ static void schedulerThread() {
     cv.notify_all();
 }
 
-// Display running/finished processes
-/*
-void screen_ls() {
-    cout << "-------------------------------------------------------------------------------------\n";
-    cout << "Running processes:\n";
-    for (auto* proc : runningProcesses) {
-        int coreId = -1;
-        {
-            lock_guard<mutex> lock(coreMapMutex);
-            if (processCoreMap.find(proc) != processCoreMap.end()) {
-                coreId = processCoreMap[proc];
-            }
-        }
-        cout << proc->name << "     (" << getCurrentTimeString() << ")       "
-            << "Core: " << coreId
-            << "         " << proc->executedCommands << " / " << proc->totalCommands << "\n";
-    }
-
-    cout << "\nFinished processes:\n";
-    for (auto* proc : finishedProcesses) {
-        cout << proc->name << "     (" << getCurrentTimeString() << ")       Finished         "
-            << proc->executedCommands << " / " << proc->totalCommands << "\n";
-    }
-    cout << "-------------------------------------------------------------------------------------\n";
-}
-*/
-
-// FUNCTION BLOCK -- EXECUTES scheduler - test
-/*
-void runSchedulerTest() {
-    // create a thread scheduler in FCFS order
-    thread scheduler(schedulerThread); 
-
-    // a vector of CPU cores thread
-    vector<thread> cpuThreads;
-
-    // start process for running cores
-    for (int i = 0; i < NUM_CORES; i++) {
-        cpuThreads.emplace_back(cpuWorker, i);
-    }
-
-    // lambda : no capture && no params 
-    // global variables : 
-    //  @schedulerRunning   ,   atomic<bool> 
-    //  @readyQueue         ,   queue<Process*>
-    //  @runningProcesses   ,   vector<Process*> 
-    // the monitor thread keeps on running the screen_ls() 
-    // while the scheduler is running, the readyQueue is not empty 
-    // all processes are not done executing
-    thread monitor([]() {
-
-        std::string inputCommand; 
-        while (schedulerRunning || !readyQueue.empty() || !runningProcesses.empty() ) {
-            //screen_ls();
-
-            std::cout<< "\nEnter command: " ;
-            cin>>inputCommand;// >> inputCommand; 
-            if(inputCommand == "screen-ls")
-            {
-                screen_ls();
-            }else{
-                cout<< "Doing something" << endl;
-            }
-            this_thread::sleep_for(chrono::milliseconds(500));
-        }
-        });
-       // screen_ls();
-    
-        
-    //synchronize threads
-    scheduler.join();
-    for (auto& t : cpuThreads) {
-        t.join();   //ensure the CPU cores are done running the processes
-    }
-
-    monitor.join(); // ensures all logging are finished
-    cout << "All processes finished execution.\n";
-}
-*/
-
-
 // Initializes a scheduler
 Scheduler::Scheduler() {
     // create a thread scheduler in FCFS order
@@ -276,14 +199,14 @@ void Scheduler::screenList(bool toFile) {
 			*/
 			coreId = proc->currentCore;
         }
-        cout << proc->name << "     (" << getCurrentTimeString() << ")       "
+        cout << proc->name << "     (" << formatTime(proc->creationTime) << ")       "
             << "Core: " << to_string(coreId)
             << "         " << proc->executedCommands << " / " << proc->totalCommands << "\n";
     }
 
     cout << "\nFinished processes:\n";
     for (auto* proc : finishedProcesses) {
-        cout << proc->name << "     (" << getCurrentTimeString() << ")       Finished         "
+        cout << proc->name << "     (" << formatTime(proc->creationTime) << ")       Finished         "
             << proc->executedCommands << " / " << proc->totalCommands << "\n";
     }
     cout << "-------------------------------------------------------------------------------------\n";
