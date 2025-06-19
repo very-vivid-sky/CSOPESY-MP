@@ -5,6 +5,7 @@
 #include "./console.h"
 #include "./commandHandler.cpp"
 #include "./display.cpp"
+#include "./scheduler.h" 
 
 static ConsoleHandlerClass* ConsoleHandler = new ConsoleHandlerClass(8);
 
@@ -77,12 +78,18 @@ void MainMenuConsole::run() {
 			case initialize:
 				std::cout << "Recognized 'initialize'. Doing something.\n\n"; break;
 			case screen:
-				if (currCommand.getSize() < 3) { std::cout << "Invalid command format.\n"; break; };
-				processName = currCommand.getToken(2);
+				if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n"; break; };
+				if (currCommand.hasFlag("-ls")) {
+					MainScheduler->screenList(false);
+					break;
+				}
 
 				idx = ConsoleHandler->searchForConsole(processName);
 				// exists?
 				if (idx >= 0) {
+					if (currCommand.getSize() < 3) { std::cout << "Invalid command format.\n"; break; };
+					processName = currCommand.getToken(2);
+
 					// is this a screen?
 					if (ConsoleHandler->getConsole(idx)->getType() == c_Screen) {
 						if (currCommand.hasFlag("-r")) {
@@ -120,6 +127,9 @@ void MainMenuConsole::run() {
 				break;
 			case scheduler_test:
 				std::cout << "Recognized 'scheduler-test'. Doing something.\n\n"; break;
+				// runSchedulerTest();
+				// screen_ls();
+				break;
 			case scheduler_stop:
 				std::cout << "Recognized 'scheduler-stop'. Doing something.\n\n"; break;
 			case report_util:
