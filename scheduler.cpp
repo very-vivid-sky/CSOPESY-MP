@@ -17,6 +17,7 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <config.h>
 
 using namespace std;
 
@@ -30,6 +31,8 @@ static condition_variable cv;
 static atomic<bool> schedulerRunning(true);
 static atomic<bool> emulatorRunning(true);
 static atomic<bool> directoryCreated(false);
+static int quantumCycles = Config::get_QUANTUM_CYCLES();
+static bool isRoundRobin = (Config::get_SCHEDULER() == SchedulerTypes::rr);
 
 // Track which core each process is running on
 static unordered_map<Process*, int> processCoreMap;
@@ -78,6 +81,7 @@ static void cpuWorker(int coreId) {
             {
                 lock_guard<mutex> lock(proc->mtx);
 				string foldername = "./processes/";
+                int i = 0;
                 
 				
 				// Creating a directory
@@ -86,34 +90,61 @@ static void cpuWorker(int coreId) {
 					directoryCreated = true;
 				}
 
-					
+				//open	
 				string filename = foldername + proc->name + ".txt";
+
+                //for header checking
+                std::ifstream infile(filename);
+                std::string firstWord;
+                infile >> firstWord;
+                infile.close();
+
+                //writing
                 ofstream logFile(filename, ios::app);
                 if (!logFile.is_open()) {
                     std::cerr << "Failed to open log file: " << filename << "\n";
                     break; 
                 }else{
 					// header
-					logFile << "Process name: " + proc->name +  "\n";
-					logFile << "Logs:\n" << "\n";
+					if (!(firstWord == "Process")) {
+                        logFile << "Process name: " + proc->name + "\n";
+                        logFile << "Logs:\n\n";
+                    }
 
-                    while (proc->executedCommands < proc->totalCommands) 
-                    {
-                        string timestamp = getCurrentTimeString();
-                        logFile << "(" << timestamp + ") \tCore: " + to_string(coreId) + "\t\"Hello World from " + proc->name + "!\"\n";
-                        this_thread::sleep_for(chrono::milliseconds(50));
-                        proc->executedCommands++;
+                    if(isRoundRobin) {
+                        while (i < quantumCycles && proc->executedCommands < proc->totalCommands) 
+                        {
+                            string timestamp = getCurrentTimeString();
+                            logFile << "(" << timestamp + ") \tCore: " + to_string(coreId) + "\t\"Hello World from " + proc->name + "!\"\n";
+                            this_thread::sleep_for(chrono::milliseconds(200)); //used 125 for testing
+                            proc->executedCommands++;
+                            i++;
+                        }
+                    } else {
+                        while (proc->executedCommands < proc->totalCommands) 
+                        {
+                            string timestamp = getCurrentTimeString();
+                            logFile << "(" << timestamp + ") \tCore: " + to_string(coreId) + "\t\"Hello World from " + proc->name + "!\"\n";
+                            this_thread::sleep_for(chrono::milliseconds(200)); //used 125 for testing
+                            proc->executedCommands++;
+                        }
                     }
                     logFile.close();
                 }
 
             }
                 
-            //mark process as finished 
+            //check if process is finished & mark, otherwise add back to queue 
             {
                 lock_guard<mutex> lock(proc->mtx);
-                proc->finished = true;
-                finishedProcesses.push_back(proc);
+
+                if(proc->executedCommands < proc->totalCommands) {
+                    readyQueue.push(proc);
+                } else {
+                    proc->finished = true;
+                    finishedProcesses.push_back(proc);
+                }
+
                 runningProcesses.erase(remove(runningProcesses.begin(), runningProcesses.end(), proc), runningProcesses.end());
             }
 
