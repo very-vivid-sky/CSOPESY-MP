@@ -102,6 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,17 +126,22 @@
   <ItemGroup>
     <ClCompile Include="AConsole.cpp" />
     <ClCompile Include="bootstrap.cpp" />
+    <ClCompile Include="CommandHandler.cpp" />
     <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="initialize.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainConsole.cpp" />
     <ClCompile Include="startsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h" />
+    <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="ConsoleGlobals.h" />
     <ClInclude Include="ConsoleManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainConsole.h" />
+    <ClInclude Include="Process.h" />
     <ClInclude Include="TypedefRepo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

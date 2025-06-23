@@ -21,9 +21,13 @@ public:
 	~MainConsole() = default;
 
 	/*
-	* @brief gets the CSOPESY HEADER 
+	* @brief gets the CSOPESY HEADER
+	* @return const char* getHeader contents
 	*/
 	const char* getHeader();
+
+	void displayHeader();
+
 
 private:
 

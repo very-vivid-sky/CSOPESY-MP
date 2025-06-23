@@ -70,30 +70,28 @@ void ConsoleManager::drawConsole() const {
 
 void ConsoleManager::process() const {
 
-    const DWORD bufferSize = 1024;
-    char buffer[bufferSize];
-    DWORD charsRead;
-    char* toReturn;
-    // Read input from the console
-    if (!ReadConsoleA(inConsole, buffer, bufferSize, &charsRead, NULL)) {
-        std::cerr << "Failed to read from console.\n";
-    }
-
-    // Remove carriage return and newline
-    std::string input(buffer, charsRead);
-    if (!input.empty() && input.back() == '\n') input.pop_back();
-    if (!input.empty() && input.back() == '\r') input.pop_back();
-
-
-    std::vector<char> bufferVector(input.begin(), input.end());
-    input.push_back('\0'); // ensure null-terminated
-
-    toReturn = bufferVector.data(); // char* version
+    this->currentConsole->process();
 
 };
 
 void ConsoleManager::switchConsole(String consoleName) {
     this->currentConsole = this->consoleTable[consoleName];
+
+ 
+   
+    // check if the next console exists in the console 
+    if (this->consoleTable.contains(consoleName)){
+
+        system("cls");
+        this->previousConsole = this->currentConsole; 
+        this->currentConsole = this->consoleTable[consoleName];
+        this->currentConsole->onEnabled();
+    
+    }else {
+        std::cerr << "Console name " << consoleName << "not found. Was it initialized?"; 
+    }
+
+
 
 };
 
@@ -118,6 +116,32 @@ void ConsoleManager::setCursorPosition(int posX, int posY) const {
 
     std::cout << "Doing something";
 };
+
+
+void ConsoleManager::refresh() {
+  
+        /* safer solution, however technically does not even actually clear the log
+        // make sure to include <windows.h> when importing !
+        // code fished from my older c project hehe :> -cy
+        HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+        DWORD dword;
+        GetConsoleMode(handle, &dword);
+        dword |= ENABLE_ECHO_INPUT;
+        SetConsoleMode(handle, dword);
+
+        std::cout << "\033[2J\033[H";
+        */
+
+        // using system is unsafe and this command only works in windows, not unix.
+        // TODO find a safer solution
+
+    system("cls");
+   
+}
+
+
+
+
 
 //constructor
 ConsoleManager::ConsoleManager() {

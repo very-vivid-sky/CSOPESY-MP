@@ -89,6 +89,12 @@ public:
     */
     void setCursorPosition(int posX, int posY) const;
 
+   /*
+   * @brief Clears the screen
+   */
+    static void refresh();
+
+
 
 private:
     ConsoleManager();
@@ -103,7 +109,5 @@ private:
     std::shared_ptr<AConsole> previousConsole;
 
     bool running = true;
-
-
 
 };
