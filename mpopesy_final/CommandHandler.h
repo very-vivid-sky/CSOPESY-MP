@@ -7,7 +7,6 @@
 #include <stdexcept>
 #include "TypedefRepo.h"
 
-
 // Define the available command types
 enum CommandType {
     unknown,
