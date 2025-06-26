@@ -14,12 +14,12 @@ namespace Symbols {
 			template<typename T> T getVal(std::string name);
 			void* getValAddress(std::string name);
 			void removeSymbol(Symbol* newSymbol);
+			bool nameExists(std::string name);
 			~SymbolTable();
 
 		private:
 			std::vector<Symbol*> table;
 			Symbol* getSymbol(std::string name);
-			bool nameExists(std::string name);
 	};
 
 	/*

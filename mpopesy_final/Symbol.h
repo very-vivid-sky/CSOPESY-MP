@@ -26,10 +26,15 @@ namespace Symbols {
 			Symbol(std::string newName, Types newType);
 			Symbol(std::string newName, bool newVal);
 			Symbol(std::string newName, char newVal);
+			Symbol(std::string newName, unsigned char newVal);
 			Symbol(std::string newName, short newVal);
+			Symbol(std::string newName, unsigned short newVal);
 			Symbol(std::string newName, int newVal);
+			Symbol(std::string newName, unsigned int newVal);
 			Symbol(std::string newName, long newVal);
+			Symbol(std::string newName, unsigned long newVal);
 			Symbol(std::string newName, long long newVal);
+			Symbol(std::string newName, unsigned long long newVal);
 			Symbol(std::string newName, float newVal);
 			Symbol(std::string newName, double newVal);
 			template<typename T> bool setVal(T newVal);

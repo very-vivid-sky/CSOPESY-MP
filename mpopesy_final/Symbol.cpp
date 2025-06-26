@@ -38,8 +38,26 @@ Symbol::Symbol(std::string newName, char newVal) {
 * This function is overloaded based on the requested type
 * @param newVal: The new value to insert
 */
+Symbol::Symbol(std::string newName, unsigned char newVal) {
+	name = newName; type = t_Char; allocateSpaceForVar(); setVal(newVal);
+}
+
+/*
+* @brief Defines and sets the value of a symbol at once.
+* This function is overloaded based on the requested type
+* @param newVal: The new value to insert
+*/
 Symbol::Symbol(std::string newName, short newVal) {
 	name = newName; type = t_Short; allocateSpaceForVar(); setVal(newVal);
+}
+
+/*
+* @brief Defines and sets the value of a symbol at once.
+* This function is overloaded based on the requested type
+* @param newVal: The new value to insert
+*/
+Symbol::Symbol(std::string newName, unsigned short newVal) {
+	name = newName; type = t_Char; allocateSpaceForVar(); setVal(newVal);
 }
 
 /*
@@ -56,6 +74,15 @@ Symbol::Symbol(std::string newName, int newVal) {
 * This function is overloaded based on the requested type
 * @param newVal: The new value to insert
 */
+Symbol::Symbol(std::string newName, unsigned int newVal) {
+	name = newName; type = t_Char; allocateSpaceForVar(); setVal(newVal);
+}
+
+/*
+* @brief Defines and sets the value of a symbol at once.
+* This function is overloaded based on the requested type
+* @param newVal: The new value to insert
+*/
 Symbol::Symbol(std::string newName, long newVal) {
 	name = newName; type = t_Long; allocateSpaceForVar(); setVal(newVal);
 }
@@ -65,8 +92,26 @@ Symbol::Symbol(std::string newName, long newVal) {
 * This function is overloaded based on the requested type
 * @param newVal: The new value to insert
 */
+Symbol::Symbol(std::string newName, unsigned long newVal) {
+	name = newName; type = t_Char; allocateSpaceForVar(); setVal(newVal);
+}
+
+/*
+* @brief Defines and sets the value of a symbol at once.
+* This function is overloaded based on the requested type
+* @param newVal: The new value to insert
+*/
 Symbol::Symbol(std::string newName, long long newVal) {
 	name = newName; type = t_LongLong; allocateSpaceForVar(); setVal(newVal);
+}
+
+/*
+* @brief Defines and sets the value of a symbol at once.
+* This function is overloaded based on the requested type
+* @param newVal: The new value to insert
+*/
+Symbol::Symbol(std::string newName, unsigned long long newVal) {
+	name = newName; type = t_Char; allocateSpaceForVar(); setVal(newVal);
 }
 
 /*

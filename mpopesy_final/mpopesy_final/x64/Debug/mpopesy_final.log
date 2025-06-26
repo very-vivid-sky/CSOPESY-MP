@@ -1,7 +1,17 @@
-﻿  MainConsole.cpp
+﻿  Instruction.cpp
+  main.cpp
+D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\ConsoleManager.h(15,14): warning C4091: 'extern ': ignored on left of 'OS_RUNNING' when no variable is declared
+  (compiling source file 'main.cpp')
+  
+  MainConsole.cpp
 D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\ConsoleManager.h(15,14): warning C4091: 'extern ': ignored on left of 'OS_RUNNING' when no variable is declared
   (compiling source file 'MainConsole.cpp')
   
 D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\MainConsole.cpp(48,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
 D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\MainConsole.cpp(73,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+  Process.cpp
+  Scheduler.cpp
+  Symbol.cpp
+  SymbolTable.cpp
+  Generating Code...
   mpopesy_final.vcxproj -> D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\x64\Debug\mpopesy_final.exe
