@@ -1,20 +1,38 @@
 #pragma once
+
 #include "TypedefRepo.h"
 #include "SymbolTable.h"
 
-/**
-    Process might need to be a class because 
-    it will 
-*/
-class Process{
-    String name;
-    Time_t creationTime;
-    int totalCommands;
-    int executedCommands;
-    int pid;
-    bool finished;
-    Mutex mtx;
-    Symbols::SymbolTable symbolTable;
+namespace Processes {
+    class Process {
+        public:
+            Process(std::string newTime);
 
-    int currentCore;
+            std::string getName();
+            std::time_t getCreationTime();
+            std::string getFormattedCreationTime();
+            int getTotalCommands();
+            int getNextLine();
+            int getPid();
+            int getCore();
+            bool isFinished();
+
+            void setCore(int newCore);
+
+            void run();
+
+            Mutex mtx;
+
+        private:
+            std::string name;
+            std::time_t creationTime;
+            int totalCommands;
+            int nextLine;
+            int pid;
+            bool finished;
+
+            Symbols::SymbolTable symbolTable;
+
+            int currentCore;
+    };
 };

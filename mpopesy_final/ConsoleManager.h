@@ -12,7 +12,7 @@ const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
 const String SCHEDULING_CONSOLE = "SCHEDULING_CONSOLE";
 const String MEMORY_CONSOLE = "MEMORY_CONSOLE";
-
+extern class OS_RUNNING;
 
 class ConsoleManager {
 
@@ -109,5 +109,7 @@ private:
     std::shared_ptr<AConsole> previousConsole;
 
     bool running = true;
+
+    std::shared_ptr<MainConsole> mainConsole;
 
 };

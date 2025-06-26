@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "ConsoleManager.h"
 #include "Config.h"
+#include "Scheduler.h"
 
 
 MainConsole::MainConsole() : AConsole("MainConsole") {
@@ -30,7 +31,7 @@ const char* MainConsole::getHeader() {
   |||       \\\___ \  |||    | | |||___| | |||____|  \\\___ \  \\\__  | ||| |  
   |||             \ \ |||    | | |||____/  |||             \ \      | | |||_|  
   \\\____  _______/ / |||____| | |||       |||____  _______/ / _____| |  ___   
-   \\\____| \\\_____/   \\\____/  |||       |||____| \\\_____/  \\\____/ |||_|  
+   \\\___| \\\_____/   \\\____/  |||       |||____| \\\_____/  \\\____/ |||_|  
 	)
 	\x1B[33mWelcome to CSOPESY OS!\033[0m
 	\x1B[32mby Bautista, Cacatian, De Veyra, Yee\033[0m
@@ -80,23 +81,27 @@ void MainConsole::process() {
 		// unrecognized command !
 		if (currCommand.getType() == unknown) {
 			std::cout << "Unrecognized command.\n\n";
-			return;
+			continue;
 		}
 
 		// initialize check
-		if (currCommand.getType() != initialize && !Config::get_initialization_status()) {
+		if (!(currCommand.getType() == initialize || currCommand.getType() == exit_menu) && !Config::get_initialization_status()) {
 			std::cout << "Cannot perform this action before initialization.\n";
-			return;
+			continue;
 		}
 
 		// check command
 		switch (currCommand.getType()) {
 		case initialize:
 			// message
-			if (Config::get_initialization_status()) { std::cout << "Re-initializing system.\n\n"; }
-			else { std::cout << "Initializing system.\n\n"; }
+			if (Config::get_initialization_status()) { std::cout << "System has already been initialized!\n\n"; return; }
+			else {
+				std::cout << "Initializing system.\n\n";
+				Config::initConfig("./config.txt");
+				Scheduler::MainScheduler = new Scheduler::SchedulerClass();
+				Scheduler::MainScheduler->runSchedulerTest();
+			}
 
-			Config::initConfig("./config.txt");
 			break;
 
 		case screen:
@@ -166,7 +171,7 @@ void MainConsole::process() {
 			break;
 		case exit_menu:
 			std::cout << "Exiting OS.\n\n";
-			delete this;
+			// delete this;
 			return;
 		default:
 			std::cout << "Unrecognized command.\n\n";
@@ -184,5 +189,5 @@ void MainConsole::process() {
 *	- actionable commands, rest are just displayed in the console
 */
 void MainConsole::onEnabled() {
-	std::cout << "onEnabled() is not working right now" << std::endl;
+	// std::cout << "onEnabled() is not working right now" << std::endl;
 };

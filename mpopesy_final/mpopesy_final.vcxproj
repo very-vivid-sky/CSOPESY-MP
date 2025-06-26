@@ -133,6 +133,8 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainConsole.cpp" />
+    <ClCompile Include="Process.cpp" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="startsystem.cpp" />
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
@@ -146,6 +148,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainConsole.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="TypedefRepo.h" />

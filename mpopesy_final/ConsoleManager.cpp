@@ -7,7 +7,6 @@
 ConsoleManager* ConsoleManager::sharedInstance = nullptr;
 
 
-
 ConsoleManager* ConsoleManager::getInstance() {
     if (sharedInstance == nullptr) {
         sharedInstance = new ConsoleManager();
@@ -109,6 +108,7 @@ void ConsoleManager::unregisterScreen() {
 };
 
 bool ConsoleManager::isRunning() const {
+    if (mainConsole == nullptr) { return false; }
     return this->running;
 };
 
@@ -149,7 +149,7 @@ ConsoleManager::ConsoleManager() {
 
     this->running = true;
 
-    const std::shared_ptr<MainConsole> mainConsole = std::make_shared<MainConsole>();
+    mainConsole = std::make_shared<MainConsole>();
     //const std::shared_ptr<MarqueeConsole> marqueeConsole = std::make_shared<MarqueeConsole>();
     //const std::shared_ptr<SchedulingConsole> schedulingConsole = std::make_shared<SchedulingConsole>();
     //const std::shared_ptr<MemorySimulationConsole> memoryConsole = std::make_shared<MemorySimulationConsole>();
