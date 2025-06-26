@@ -2,6 +2,7 @@
 #include "CommandHandler.h"
 #include "InputManager.h"
 #include "ConsoleManager.h"
+#include "Config.h"
 
 
 MainConsole::MainConsole() : AConsole("MainConsole") {
@@ -29,12 +30,12 @@ const char* MainConsole::getHeader() {
   |||       \\\___ \  |||    | | |||___| | |||____|  \\\___ \  \\\__  | ||| |  
   |||             \ \ |||    | | |||____/  |||             \ \      | | |||_|  
   \\\____  _______/ / |||____| | |||       |||____  _______/ / _____| |  ___   
-   \\\\____| \\\_____/   \\\____/  |||       |||____| \\\_____/  \\\____/ |||_|  
+   \\\____| \\\_____/   \\\____/  |||       |||____| \\\_____/  \\\____/ |||_|  
 	)
 	\x1B[33mWelcome to CSOPESY OS!\033[0m
 	\x1B[32mby Bautista, Cacatian, De Veyra, Yee\033[0m
 
-	)";
+)";
 
 	return header;
 }
@@ -71,15 +72,33 @@ void MainConsole::process() {
 	WriteConsoleA(outConsole, header, strlen(header), nullptr, nullptr);
 
 	while (true) {
-		std::string input = InputManager::getInputWithPrompt("Enter command: ");
+		std::string input = InputManager::getInputWithPrompt("Enter command");
 		std::string processName;
 		//int idx;
 		Command currCommand = Command(input);
 
+		// unrecognized command !
+		if (currCommand.getType() == unknown) {
+			std::cout << "Unrecognized command.\n\n";
+			return;
+		}
+
+		// initialize check
+		if (currCommand.getType() != initialize && !Config::get_initialization_status()) {
+			std::cout << "Cannot perform this action before initialization.\n";
+			return;
+		}
+
 		// check command
 		switch (currCommand.getType()) {
 		case initialize:
-			std::cout << "Recognized 'initialize'. Doing something.\n\n"; break;
+			// message
+			if (Config::get_initialization_status()) { std::cout << "Re-initializing system.\n\n"; }
+			else { std::cout << "Initializing system.\n\n"; }
+
+			Config::initConfig("./config.txt");
+			break;
+
 		case screen:
 			std::cout << "Recognized 'screen'. Doing something.\n\n"; break;
 			/*

@@ -1,5 +1,4 @@
-﻿  Symbol.cpp
-  SymbolTable.cpp
-  main.cpp
-  Generating Code...
+﻿  MainConsole.cpp
+D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\MainConsole.cpp(47,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\MainConsole.cpp(72,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
   mpopesy_final.vcxproj -> D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\x64\Debug\mpopesy_final.exe

@@ -127,6 +127,7 @@
     <ClCompile Include="AConsole.cpp" />
     <ClCompile Include="bootstrap.cpp" />
     <ClCompile Include="CommandHandler.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="initialize.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="AConsole.h" />
     <ClInclude Include="CommandHandler.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="ConsoleGlobals.h" />
     <ClInclude Include="ConsoleManager.h" />
     <ClInclude Include="InputManager.h" />
@@ -147,6 +149,9 @@
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="TypedefRepo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
