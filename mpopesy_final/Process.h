@@ -1,5 +1,6 @@
 #pragma once
 #include "TypedefRepo.h"
+#include "SymbolTable.h"
 
 /**
     Process might need to be a class because 
@@ -13,6 +14,7 @@ class Process{
     int pid;
     bool finished;
     Mutex mtx;
+    Symbols::SymbolTable symbolTable;
 
     int currentCore;
 };
