@@ -1,5 +1,4 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 #include <string>
 #include <vector>
 
@@ -18,7 +17,3 @@ namespace Config {
 	int get_DELAY_PER_EXEC();
 	bool get_initialization_status();
 };
-
-
-#include "config.cpp"
-#endif

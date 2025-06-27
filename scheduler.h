@@ -1,56 +1,50 @@
-#ifndef SCHEDULER_H
-#define SCHEDULER_H
+#pragma once
 
 #include <atomic>
 #include <condition_variable>
+#include <ostream>
 #include <queue>
 #include <thread>
 #include <unordered_map>
 #include <vector>
 
-using namespace std;
+#include "Config.h"
+#include "Process.h"
 
-struct Process {
-    string name;
-    time_t creationTime;
-    int totalCommands;
-    int executedCommands;
-    int pid;
-    bool finished;
-    mutex mtx;
-	
-	int currentCore;
-};
-
-class Scheduler {
+namespace Scheduler {
+	class SchedulerClass {
 	public:
-		Scheduler();
+		SchedulerClass();
 		void runSchedulerTest();
-		void setAddresses(vector<Process*>* addr1, vector<Process*>* addr2, queue<Process*>* addr3);
-		vector<Process*>* getRunningProcesses();
-		vector<Process*>* getFinishedProcesses();
-		queue<Process*>* getReadyQueue();
+		void setAddresses(std::vector<Processes::Process*>* addr1, std::vector<Processes::Process*>* addr2, std::queue<Processes::Process*>* addr3);
+		void addToQueue(Processes::Process* p);
+		// std::vector<Processes::Process*>* getRunningProcesses();
+		// std::vector<Processes::Process*>* getFinishedProcesses();
+		// std::queue<Processes::Process*>* getReadyQueue();
 
-		const int NUM_CORES = 4;
+		const int NUM_CORES = Config::get_NUM_CPU();
+		const int QUANTUM_CYCLES = Config::get_QUANTUM_CYCLES();
+		const bool IS_ROUND_ROBIN = (Config::get_SCHEDULER() == SchedulerTypes::rr);
+
 		const int NUM_PROCESSES = 10;
 		const int PRINTS_PER_PROCESS = 100;
 
-		void screenList(bool toFile);
+		void screenList(std::ostream* stream);
 
 	private:
-		vector<thread> cpuThreads;
-		thread scheduler;
+		std::vector<std::thread> cpuThreads;
+		std::thread scheduler;
 
-		vector<Process*>* addr_runningProcesses;
-		vector<Process*>* addr_finishedProcesses;
-		queue<Process*>* addr_readyQueue;
+		std::vector<Processes::Process*>* addr_runningProcesses;
+		std::vector<Processes::Process*>* addr_finishedProcesses;
+		std::queue<Processes::Process*>* addr_readyQueue;
 
 		// Track which core each process is running on
-		unordered_map<Process*, int> processCoreMap;
+		std::unordered_map<Processes::Process*, int> processCoreMap;
+	};
+
+	extern SchedulerClass* MainScheduler;
+	extern std::vector<Processes::Process*> runningProcesses;
+	extern std::vector<Processes::Process*> finishedProcesses;
+	extern std::queue<Processes::Process*> readyQueue;
 };
-
-Scheduler* MainScheduler;
-
-#include "scheduler.cpp"
-
-#endif

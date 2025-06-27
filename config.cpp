@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "./config.h"
+#include "./Config.h"
 
 // anonymous namespace for private functions
 namespace {
