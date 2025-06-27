@@ -6,6 +6,9 @@
 #include "Scheduler.h"
 #include "Config.h"
 
+#include "InstructionList.h"
+#include "ForInstruction.h"
+
 
 //extern variables store at ConsoleGlobals.h
 HANDLE outConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -34,6 +37,7 @@ int main() {
 	//enter main loop 
 	//delete and clear memory
 
+	/*
 	ConsoleManager::initialize();
 	bool OS_RUNNING = true;
 
@@ -46,4 +50,5 @@ int main() {
 
 	ConsoleManager::destroy();
 	return 0;
+	*/
 }

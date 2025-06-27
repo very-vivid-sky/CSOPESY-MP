@@ -66,6 +66,12 @@
     <ClCompile Include="Instruction.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="InstructionList.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="ForInstruction.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h">
@@ -105,6 +111,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Instruction.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="InstructionList.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="ForInstruction.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

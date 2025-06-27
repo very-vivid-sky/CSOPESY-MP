@@ -129,9 +129,11 @@
     <ClCompile Include="CommandHandler.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="ConsoleManager.cpp" />
+    <ClCompile Include="ForInstruction.cpp" />
     <ClCompile Include="initialize.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Instruction.cpp" />
+    <ClCompile Include="InstructionList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainConsole.cpp" />
     <ClCompile Include="Process.cpp" />
@@ -146,8 +148,10 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConsoleGlobals.h" />
     <ClInclude Include="ConsoleManager.h" />
+    <ClInclude Include="ForInstruction.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Instruction.h" />
+    <ClInclude Include="InstructionList.h" />
     <ClInclude Include="MainConsole.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="Scheduler.h" />

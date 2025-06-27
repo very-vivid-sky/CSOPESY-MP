@@ -34,6 +34,7 @@ namespace Instructions {
 	}
 
 	enum InstructionType {
+		unknown,
 		print,
 		declare,
 		add,
@@ -45,18 +46,18 @@ namespace Instructions {
 	// Generic class for instructions.
 	class Instruction {
 		public:
-			virtual void run();
+			virtual bool run() { return true; };
 			InstructionType getType();
 		private:
-			InstructionType type;
+			InstructionType type = unknown;
 	};
 
 	// Print instruction - prints a given string
-	class PrintInstruction {
+	class PrintInstruction : public Instruction {
 		public:
 			PrintInstruction();
-			PrintInstruction(std::string str, std::ostream* streamToUse);
-			void run();
+			PrintInstruction(std::ostream* streamToUse, std::string str);
+			bool run();
 		private:
 			std::string toPrint;
 			std::ostream* stream;
@@ -64,11 +65,11 @@ namespace Instructions {
 	};
 
 	// Declare instruction - declares a new variable
-	class DeclareInstruction {
+	class DeclareInstruction : public Instruction {
 		public:
 			DeclareInstruction(Symbols::SymbolTable* tableAddr, std::string newName);
 			DeclareInstruction(Symbols::SymbolTable* tableAddr, std::string newName, unsigned int newVal);
-			void run();
+			bool run();
 		private:
 			Symbols::SymbolTable* table;
 			std::string name;
@@ -77,10 +78,10 @@ namespace Instructions {
 	};
 
 	// Add instruction - adds two variables / values together and puts the result in a third
-	class AddInstruction {
+	class AddInstruction : public Instruction {
 		public:
 			template<typename T1, typename T2> AddInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
-			void run();
+			bool run();
 		private:
 			Symbols::SymbolTable* table;
 			std::string dest;
@@ -92,16 +93,25 @@ namespace Instructions {
 
 
 	// Subtract instruction - subtracts two variables / values together and puts the result in a third
-	class SubtractInstruction {
-	public:
-		template<typename T1, typename T2> SubtractInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
-		void run();
-	private:
-		Symbols::SymbolTable* table;
-		std::string dest;
-		InstructionValueHolder val1;
-		InstructionValueHolder val2;
+	class SubtractInstruction : public Instruction {
+		public:
+			template<typename T1, typename T2> SubtractInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
+			bool run();
+		private:
+			Symbols::SymbolTable* table;
+			std::string dest;
+			InstructionValueHolder val1;
+			InstructionValueHolder val2;
 
-		const InstructionType type = subtract;
+			const InstructionType type = subtract;
+	};
+
+	// Sleep instruction - sleeps for n cpu ticks
+	class SleepInstruction : public Instruction {
+		public:
+			SleepInstruction(int timeToSleep);
+			bool run();
+		private:
+			int time;
 	};
 }
