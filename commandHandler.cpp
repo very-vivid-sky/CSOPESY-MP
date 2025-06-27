@@ -1,79 +1,31 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <algorithm>
-#include <stdexcept>
+#include "CommandHandler.h"
 
-// Define the available command types
-enum CommandType {
-    unknown,
-    initialize,
-    screen,
-    scheduler_test,
-    scheduler_stop,
-    report_util,
-    clear,
-    exit_menu
-};
 
-// Command class that parses and stores command tokens
-class Command {
-public:
-    Command(std::string newCommand)
-        : raw(std::move(newCommand)), type(unknown) {
-        tokenize();
-        initializeType();
+CommandType Command::getType() const {
+    return this->type;
+}
+
+int Command::getSize() const {
+    return this->tokens.size();
+}
+
+String Command::getRaw() const {
+    return this->raw;
+}
+
+String Command::getToken(int idx) const {
+
+    if (idx < 0 || idx >= static_cast<int>(this->tokens.size())) {
+        throw std::out_of_range("Out of range of Command's tokens");
     }
+    return this->tokens[idx];
+}
 
-    CommandType getType() const { return type; }
-    int getSize() const { return tokens.size(); }
-    std::string getRaw() const { return raw; }
+bool Command::hasFlag(const std::string& flag) const {
+    return std::find(this->tokens.begin(), this->tokens.end(), flag) != this->tokens.end();
+}
 
-    std::string getToken(int idx) const {
-        if (idx < 0 || idx >= static_cast<int>(tokens.size())) {
-            throw std::out_of_range("Out of range of Command's tokens");
-        }
-        return tokens[idx];
-    }
-
-    bool hasFlag(const std::string& flag) const {
-        return std::find(tokens.begin(), tokens.end(), flag) != tokens.end();
-    }
-
-private:
-    std::string raw;
-    CommandType type;
-    std::vector<std::string> tokens;
-
-    void tokenize() {
-        std::istringstream iss(raw);
-        std::string token;
-        while (iss >> token) {
-            tokens.push_back(token);
-        }
-    }
-
-    void initializeType() {
-        if (tokens.empty()) {
-            type = unknown;
-            return;
-        }
-
-        const std::string& command = tokens[0];
-
-        if (command == "initialize") type = initialize;
-        else if (command == "screen") type = screen;
-        else if (command == "scheduler-test") type = scheduler_test;
-        else if (command == "scheduler-stop") type = scheduler_stop;
-        else if (command == "report-util") type = report_util;
-        else if (command == "clear") type = clear;
-        else if (command == "exit") type = exit_menu;
-        else type = unknown;
-    }
-};
-
-void runCommandHandler() {
+void Command::runCommandHandler() {
     bool running = true;
 
     while (running) {
@@ -92,7 +44,7 @@ void runCommandHandler() {
             //screen_ls();
             break;
 
-        case scheduler_test: 
+        case scheduler_test:
             //runSchedulerTest();
             break;
 
@@ -101,7 +53,7 @@ void runCommandHandler() {
             std::cout << "Stopping scheduler...\n";
             schedulerRunning = false;
             emulatorRunning = false;
-            cv.notify_all(); 
+            cv.notify_all();
             */
             break;
 
