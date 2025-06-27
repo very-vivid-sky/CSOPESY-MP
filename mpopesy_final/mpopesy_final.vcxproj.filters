@@ -16,6 +16,15 @@
     <Filter Include="Console">
       <UniqueIdentifier>{5295114a-e87b-47b9-b5ca-6e74c8096673}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{6edaea95-9f7f-41f1-aaf0-e0e26e9c342d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process">
+      <UniqueIdentifier>{5e496bdb-19cf-4d11-bf59-0ba2abd3256b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{34fb0d5e-01db-4543-bc5c-87151071fa4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AConsole.cpp">
@@ -45,6 +54,30 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalScheduler.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ICommand.h">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintCommand.h">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ForCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MarqueeConsole.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
+    <ClCompile Include="config.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h">
@@ -68,8 +101,35 @@
     <ClInclude Include="CommandHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalScheduler.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
     <ClInclude Include="Process.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="DeclareCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtractCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="AddCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SleepCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MarqueeConsole.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessConsole.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config.txt" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\ICommand.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\ICommand.h_15EBF1714D61AB4.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\ICommand.h_15EBF1714D61AB4.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\ICommand.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\cacat\\Downloads\\OPESY LECTURES\\CSOPESY-MP\\mpopesy_final\\ICommand.h",
+                    "source-path": "c:\\users\\cacat\\downloads\\opesy lectures\\csopesy-mp\\mpopesy_final\\icommand.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\PrintCommand.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\PrintCommand.h_B4911E773E93F8B7.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\PrintCommand.h_B4911E773E93F8B7.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\PrintCommand.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\cacat\\source\\mpopesy_final\\PrintCommand.h",
+                    "source-path": "c:\\users\\cacat\\source\\mpopesy_final\\printcommand.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

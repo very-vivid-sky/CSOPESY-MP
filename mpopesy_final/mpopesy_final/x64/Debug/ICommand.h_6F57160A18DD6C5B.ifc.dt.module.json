@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\ICommand.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\ICommand.h_6F57160A18DD6C5B.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\ICommand.h_6F57160A18DD6C5B.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\ICommand.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\cacat\\source\\mpopesy_final\\ICommand.h",
+                    "source-path": "c:\\users\\cacat\\source\\mpopesy_final\\icommand.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

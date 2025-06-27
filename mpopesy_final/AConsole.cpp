@@ -7,7 +7,6 @@ AConsole::AConsole(String strName) {
 }
 
 
-
 String AConsole::getName() {
 	return this->name;
 }

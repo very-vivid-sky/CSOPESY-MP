@@ -6,7 +6,9 @@
 #include "AConsole.h"
 #include "TypedefRepo.h"
 #include "MainConsole.h"
+#include "MarqueeConsole.h"
 #include "ConsoleGlobals.h"
+#include "Process.h"
 
 const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
@@ -94,7 +96,13 @@ public:
    */
     static void refresh();
 
+    void stopRunning(); 
 
+
+
+
+    void addAndGoToConsole(AConsole* c);
+    void addConsole(AConsole* c);
 
 private:
     ConsoleManager();
@@ -107,7 +115,20 @@ private:
 
     std::shared_ptr<AConsole> currentConsole;
     std::shared_ptr<AConsole> previousConsole;
+    std::shared_ptr<AConsole> tempConsole; 
 
     bool running = true;
+
+    //Cys variables
+    /*int size;
+    AConsole* mainMenu;
+    AConsole* currentConsole;
+    AConsole** allConsoles;
+    bool* activeConsoles;*/
+
+    //add console 
+    //remove console 
+    void addConsole(String newconsoleName);
+
 
 };

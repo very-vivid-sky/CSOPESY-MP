@@ -2,9 +2,10 @@
 #include "CommandHandler.h"
 #include "InputManager.h"
 #include "ConsoleManager.h"
+#include "Scheduler.h"
 
 
-MainConsole::MainConsole() : AConsole("MainConsole") {
+MainConsole::MainConsole() : AConsole("MAIN_CONSOLE") {
 }
 
 
@@ -30,9 +31,9 @@ const char* MainConsole::getHeader() {
   |||             \ \ |||    | | |||____/  |||             \ \      | | |||_|  
   \\\____  _______/ / |||____| | |||       |||____  _______/ / _____| |  ___   
    \\\\____| \\\_____/   \\\____/  |||       |||____| \\\_____/  \\\____/ |||_|  
-	)
-	\x1B[33mWelcome to CSOPESY OS!\033[0m
-	\x1B[32mby Bautista, Cacatian, De Veyra, Yee\033[0m
+	
+	Welcome to CSOPESY OS!
+	by Bautista, Cacatian, De Veyra, Yee
 
 	)";
 
@@ -70,44 +71,46 @@ void MainConsole::process() {
 	// outConsole is a global variable ; check ConsoleGlobals.h
 	WriteConsoleA(outConsole, header, strlen(header), nullptr, nullptr);
 
-	while (true) {
-		std::string input = InputManager::getInputWithPrompt("Enter command: ");
+	while (ConsoleManager::getInstance()->isRunning()) {
+		std::string input = InputManager::getInputWithPrompt("Main - Enter command");
 		std::string processName;
-		//int idx;
+		int idx = 1;
 		Command currCommand = Command(input);
 
 		// check command
 		switch (currCommand.getType()) {
 		case initialize:
-			std::cout << "Recognized 'initialize'. Doing something.\n\n"; break;
+			std::cout << "Recognized 'initialize'. Doing something.\n\n"; 
+			break;
 		case screen:
-			std::cout << "Recognized 'screen'. Doing something.\n\n"; break;
-			/*
+			std::cout << "Recognized 'screen'. Doing something.\n\n";
+			std::cout << currCommand.getRaw();
 			if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n"; break; };
 			if (currCommand.hasFlag("-ls")) {
 				//MainScheduler->screenList(false);
-				std::cout << "Screen -ls atm ";
+				std::cout << "\nscreen -ls atm ";
 				break;
 			}
 
-			idx = ConsoleHandler->searchForConsole(processName);
-	
+			//idx = ConsoleHandler->searchForConsole(processName);
+			
 			// exists?
 			if (idx >= 0) {
 				if (currCommand.getSize() < 3) { std::cout << "Invalid command format.\n"; break; };
 				processName = currCommand.getToken(2);
 
 				// is this a screen?
-				if (ConsoleHandler->getConsole(idx)->getType() == c_Screen) {
+				if (true) {
 					if (currCommand.hasFlag("-r")) {
-						std::cout << "Reloading screen!\n";
-						ConsoleHandler->setCurrentConsole(idx);
-						((ScreenConsole*)(ConsoleHandler->getCurrentConsole()))->setTimestampToNow();
-						return;
+						std::cout << "\nReloading screen!\n" << processName << std::endl;
+						/*ConsoleHandler->setCurrentConsole(idx);
+						((ScreenConsole*)(ConsoleHandler->getCurrentConsole()))->setTimestampToNow();*/
+						break;
 					}
 					else if (currCommand.hasFlag("-s")) {
-						ConsoleHandler->setCurrentConsole(idx);
-						return;
+						std::cout << "\nCreating screen!\n";
+						//ConsoleHandler->setCurrentConsole(idx);*/
+						break;
 					}
 				}
 				else {
@@ -116,26 +119,30 @@ void MainConsole::process() {
 			
 			}else {
 				if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
-					ConsoleHandler->addAndGotoConsole(new ScreenConsole(processName));
-					return;
+					std::cout << "Screen -r or Screen -s!\n";
+				/*	ConsoleHandler->addAndGotoConsole(new ScreenConsole(processName));*/
+					break;
 				}
-			}*/
-			/*
+			}
+			
 			if (currCommand.hasFlag("-r")) {
-				ConsoleHandler->addAndGotoConsole(new ScreenConsole( processName ));
-				return;
+				std::cout << "\nScreen -r!\n";
+
+				/*ConsoleHandler->addAndGotoConsole(new ScreenConsole( processName ));*/
+				break;
 			}
 			else if (currCommand.hasFlag("-s")) {
-				ConsoleHandler->addAndGotoConsole(new ScreenConsole( processName ));
-				return;
+				std::cout << "\nScreen -s!\n";
+				//ConsoleHandler->addAndGotoConsole(new ScreenConsole( processName ));
+				break;
 			}
 			else { std::cout << "Command not recognized for screen.\n\n"; };
-			*/
+	
 			break;
 		case scheduler_test:
 			std::cout << "Recognized 'scheduler-test'. Doing something.\n\n"; break;
-			// runSchedulerTest();
-			// screen_ls();
+			//Scheduler::runSchedulerTest();
+		//	screen_ls();
 			break;
 		case scheduler_stop:
 			std::cout << "Recognized 'scheduler-stop'. Doing something.\n\n"; break;
@@ -147,8 +154,11 @@ void MainConsole::process() {
 			break;
 		case exit_menu:
 			std::cout << "Exiting OS.\n\n";
-			delete this;
-			return;
+			ConsoleManager::getInstance()->stopRunning();
+			 break;
+		case marquee:
+			ConsoleManager::getInstance()->switchConsole("MARQUEE_CONSOLE");
+			break;
 		default:
 			std::cout << "Unrecognized command.\n\n";
 			break;
@@ -165,5 +175,10 @@ void MainConsole::process() {
 *	- actionable commands, rest are just displayed in the console
 */
 void MainConsole::onEnabled() {
-	std::cout << "onEnabled() is not working right now" << std::endl;
+	if (!this->running) {
+		running = true;
+	}
 };
+
+
+

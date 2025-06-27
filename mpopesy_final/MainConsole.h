@@ -11,6 +11,7 @@ public:
 	void process() override;
 	void display() override;
 	void onEnabled() override;
+	bool running = false;
 
 	//constructor 
 

@@ -17,6 +17,8 @@ enum CommandType {
     scheduler_stop,
     report_util,
     clear,
+    exit_marquee,
+    marquee,
     exit_menu
 };
 
@@ -98,7 +100,8 @@ private:
         }
 
         const std::string& command = tokens[0];
-
+  
+    
         if (command == "initialize") type = initialize;
         else if (command == "screen") type = screen;
         else if (command == "scheduler-test") type = scheduler_test;
@@ -106,6 +109,8 @@ private:
         else if (command == "report-util") type = report_util;
         else if (command == "clear") type = clear;
         else if (command == "exit") type = exit_menu;
+        else if (command == "exit_marquee") type = exit_marquee;
+        else if (command == "marquee") type = marquee;
         else type = unknown;
     }
 };

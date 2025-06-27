@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\config.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\config.h_F52397905C2E9F3E.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\config.h_F52397905C2E9F3E.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\config.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\cacat\\Downloads\\OPESY LECTURES\\CSOPESY-MP\\mpopesy_final\\config.h",
+                    "source-path": "c:\\users\\cacat\\downloads\\opesy lectures\\csopesy-mp\\mpopesy_final\\config.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

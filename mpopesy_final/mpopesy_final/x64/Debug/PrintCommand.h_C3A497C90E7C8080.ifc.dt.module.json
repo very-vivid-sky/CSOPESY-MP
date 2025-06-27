@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\PrintCommand.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\PrintCommand.h_C3A497C90E7C8080.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\PrintCommand.h_C3A497C90E7C8080.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\PrintCommand.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\cacat\\Downloads\\OPESY LECTURES\\CSOPESY-MP\\mpopesy_final\\PrintCommand.h",
+                    "source-path": "c:\\users\\cacat\\downloads\\opesy lectures\\csopesy-mp\\mpopesy_final\\printcommand.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

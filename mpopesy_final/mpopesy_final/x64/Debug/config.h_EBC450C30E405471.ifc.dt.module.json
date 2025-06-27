@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\config.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\config.h_EBC450C30E405471.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\config.h_EBC450C30E405471.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\config.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "C:\\Users\\cacat\\source\\mpopesy_final\\config.h",
+                    "source-path": "c:\\users\\cacat\\source\\mpopesy_final\\config.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

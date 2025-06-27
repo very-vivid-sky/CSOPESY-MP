@@ -1,9 +1,17 @@
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\AConsole.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\AConsole.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\bootstrap.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\bootstrap.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\CommandHandler.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\CommandHandler.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\config.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\config.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\config.h;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\config.h.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\ConsoleManager.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\ConsoleManager.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\ForCommand.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\ForCommand.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\GlobalScheduler.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\GlobalScheduler.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\ICommand.h;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\ICommand.h.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\initialize.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\initialize.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\InputManager.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\InputManager.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\main.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\main.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\MainConsole.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\MainConsole.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\MarqueeConsole.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\MarqueeConsole.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\PrintCommand.h;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\PrintCommand.h.obj
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\Scheduler.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\Scheduler.obj
 C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\startsystem.cpp;C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\mpopesy_final\x64\Debug\startsystem.obj

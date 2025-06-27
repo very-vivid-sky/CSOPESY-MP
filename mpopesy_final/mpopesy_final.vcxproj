@@ -127,22 +127,41 @@
     <ClCompile Include="AConsole.cpp" />
     <ClCompile Include="bootstrap.cpp" />
     <ClCompile Include="CommandHandler.cpp" />
+    <ClCompile Include="config.cpp" />
+    <ClCompile Include="config.h" />
     <ClCompile Include="ConsoleManager.cpp" />
+    <ClCompile Include="ForCommand.cpp" />
+    <ClCompile Include="GlobalScheduler.cpp" />
+    <ClCompile Include="ICommand.h" />
     <ClCompile Include="initialize.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainConsole.cpp" />
+    <ClCompile Include="MarqueeConsole.cpp" />
+    <ClCompile Include="PrintCommand.h" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="startsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h" />
+    <ClInclude Include="AddCommand.h" />
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="ConsoleGlobals.h" />
     <ClInclude Include="ConsoleManager.h" />
+    <ClInclude Include="DeclareCommand.h" />
+    <ClInclude Include="GlobalScheduler.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainConsole.h" />
+    <ClInclude Include="MarqueeConsole.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ProcessConsole.h" />
+    <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="SleepCommand.h" />
+    <ClInclude Include="SubtractCommand.h" />
     <ClInclude Include="TypedefRepo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

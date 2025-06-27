@@ -2,12 +2,15 @@
 #include "ConsoleManager.h"
 #include "MainConsole.h"
 #include "ConsoleGlobals.h"
+#include "Scheduler.h"
+
+
 
 
 //extern variables store at ConsoleGlobals.h
 HANDLE outConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE inConsole = GetStdHandle(STD_INPUT_HANDLE);
-
+bool OS_RUNNING = true;
 int main() {
 	//bootstrap
 	//initialize
@@ -15,12 +18,9 @@ int main() {
 	//enter main loop 
 	//delete and clear memory
 
-
-	
 	ConsoleManager::initialize();
-
-
-	bool OS_RUNNING = true;
+	/*MainScheduler = new Scheduler();
+	MainScheduler->runSchedulerTest();*/
 
 
 	while (OS_RUNNING) {
@@ -33,5 +33,4 @@ int main() {
 
 
 	ConsoleManager::destroy();
-
 }

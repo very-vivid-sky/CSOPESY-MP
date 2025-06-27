@@ -1,15 +1,12 @@
 #include "ConsoleManager.h"
 #include "MainConsole.h"
-//#include "MarqueeConsole.h"
+#include "MarqueeConsole.h"
 //#include "MemorySimulationConsole.h"
 //#include "SchedulingConsole.h"
 
 ConsoleManager* ConsoleManager::sharedInstance = nullptr;
 
-/// <summary>
-/// / THIS IS oldd
-/// </summary>
-/// <returns></returns>
+
 
 ConsoleManager* ConsoleManager::getInstance() {
     if (sharedInstance == nullptr) {
@@ -44,33 +41,6 @@ void ConsoleManager::drawConsole() const {
 
 
 
-// IGNORE THIS RIGHT NOW HEHE
-//char* ConsoleManager::readLine() {
-//    const DWORD bufferSize = 1024;
-//    char buffer[bufferSize];
-//    DWORD charsRead;
-//
-//    // Read input from the console
-//    if (!ReadConsoleA(this->inConsole, buffer, bufferSize, &charsRead, NULL)) {
-//        std::cerr << "Failed to read from console.\n";
-//        return '\0';
-//    }
-//
-//    // Remove carriage return and newline
-//    std::string input(buffer, charsRead);
-//    if (!input.empty() && input.back() == '\n') input.pop_back();
-//    if (!input.empty() && input.back() == '\r') input.pop_back();
-//
-//
-//    std::vector<char> bufferVector(input.begin(), input.end());
-//    input.push_back('\0'); // ensure null-terminated
-//
-//    char* toReturn = bufferVector.data(); // char* version
-//
-//    return toReturn;
-//}
-
-
 void ConsoleManager::process() const {
 
     this->currentConsole->process();
@@ -78,34 +48,37 @@ void ConsoleManager::process() const {
 };
 
 void ConsoleManager::switchConsole(String consoleName) {
-    this->currentConsole = this->consoleTable[consoleName];
 
- 
-   
     // check if the next console exists in the console 
     if (this->consoleTable.contains(consoleName)){
 
         system("cls");
         this->previousConsole = this->currentConsole; 
         this->currentConsole = this->consoleTable[consoleName];
-        this->currentConsole->onEnabled();
-    
+        this->currentConsole->onEnabled(); 
+
     }else {
         std::cerr << "Console name " << consoleName << "not found. Was it initialized?"; 
     }
 
-
-
 };
 
 void ConsoleManager::returnToPreviousConsole() {
-    std::cout << "Doing something";
+    this->tempConsole = this->currentConsole;       // tempConsole stores currentConsole
+    this->currentConsole = this->previousConsole;   // previousConsole becomes currentConsole
+    this->previousConsole = this->tempConsole;      // previousConsole stores tempConsole
+    system("cls");
+    switchConsole(this->currentConsole->getName());
+
+    ConsoleManager::getInstance()->process();    // get first the process 
+    ConsoleManager::getInstance()->drawConsole(); // draw the console 
 };
 
 void ConsoleManager::exitApplication() {
     std::cout << "Doing something";
 
 };
+
 void ConsoleManager::unregisterScreen() {
     std::cout << "Doing something";
 
@@ -143,26 +116,64 @@ void ConsoleManager::refresh() {
 }
 
 
+void ConsoleManager::stopRunning() {
+    this->running = false;
+}
 
 
+void ConsoleManager::addConsole(String newconsoleName) {
+    auto found= this->consoleTable.find(newconsoleName);
+   /* if (found == this->consoleTable.end()) {
+        const std::shared_ptr<AConsole> consoleNew = std::make_shared<Process>();
+        this->consoleTable[newconsoleName] = consoleNew;
+        this->switchConsole(newconsoleName);
+    }
+    */
+}
 
 //constructor
 ConsoleManager::ConsoleManager() {
-
-
     this->running = true;
 
     const std::shared_ptr<MainConsole> mainConsole = std::make_shared<MainConsole>();
-    //const std::shared_ptr<MarqueeConsole> marqueeConsole = std::make_shared<MarqueeConsole>();
+    const std::shared_ptr<MarqueeConsole> marqueeConsole = std::make_shared<MarqueeConsole>();
     //const std::shared_ptr<SchedulingConsole> schedulingConsole = std::make_shared<SchedulingConsole>();
-    //const std::shared_ptr<MemorySimulationConsole> memoryConsole = std::make_shared<MemorySimulationConsole>();
 
     this->consoleTable[MAIN_CONSOLE] = mainConsole;
-    //this->consoleTable[MARQUEE_CONSOLE] = marqueeConsole;
+    this->consoleTable[MARQUEE_CONSOLE] = marqueeConsole;
     //this->consoleTable[SCHEDULING_CONSOLE] = schedulingConsole;
-    //this->consoleTable[MEMORY_CONSOLE] = memoryConsole;
 
-    this->switchConsole(MAIN_CONSOLE);
+    this->switchConsole(MAIN_CONSOLE); //opens main console
+
+    //cy's implementation
+    /*size = s;
+    allConsoles = new AConsole * [size];
+    activeConsoles = new bool[size];
+
+    // cleanup of garbage data
+    for (int i = 0; i < size; i++) {
+        activeConsoles[i] = false;
+    }
+
+    this->addConsole(new MainConsole());
+    mainMenu = allConsoles[0];
+    currentConsole = mainMenu;*/
 }
+
+
+//void ConsoleManager::addConsole(AConsole* c) {
+//   /* for (int i = 0; i < size; i++) {
+//        if ((activeConsoles[i]) == false) {
+//            activeConsoles[i] = true;
+//            allConsoles[i] = c;
+//            return;
+//        }
+//    }
+//    throw std::range_error("Tried to add a new console to an already full console handler");*/
+//}
+
+
+
+
 
 
