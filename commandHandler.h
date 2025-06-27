@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "TypedefRepo.h"
 
+
 // Define the available command types
 enum CommandType {
     unknown,
@@ -16,8 +17,8 @@ enum CommandType {
     scheduler_stop,
     report_util,
     clear,
-    marquee,
     exit_marquee,
+    marquee,
     exit_menu
 };
 
@@ -31,17 +32,17 @@ public:
 
 
     /*
-    * @brief Returns the type of command : 
+    * @brief Returns the type of command :
     *   - init, screen, scheduler_test,clear,exit,etc.,
-    * 
+    *
     * @return enum <CommandType>
     */
     CommandType getType() const;
 
     /*
-    * @brief Returns the size of the token 
-    * 
-    * TODO: 4 Are we using this? 
+    * @brief Returns the size of the token
+    *
+    * TODO: 4 Are we using this?
     */
     int getSize() const;
 
@@ -53,8 +54,8 @@ public:
 
 
     /*
-    * @brief Gets the token 
-    * 
+    * @brief Gets the token
+    *
     * TODO 4: What and which token is this? Kindly rename, thank you
     */
     String getToken(int idx) const;
@@ -70,7 +71,7 @@ public:
 
 
     /*
-    * TODO: 4 Where does this function fit in? Can I delete this? 
+    * TODO: 4 Where does this function fit in? Can I delete this?
     */
     void runCommandHandler();
 
@@ -80,7 +81,7 @@ private:
     std::vector<std::string> tokens;
 
 
-    
+
     void tokenize() {
         std::istringstream iss(raw);
         std::string token;
@@ -90,7 +91,7 @@ private:
     }
 
     /*
-    * TODO 3: Kindly add description thank you. 
+    * TODO 3: Kindly add description thank you.
     */
     void initializeType() {
         if (tokens.empty()) {
@@ -100,15 +101,16 @@ private:
 
         const std::string& command = tokens[0];
 
+
         if (command == "initialize") type = initialize;
         else if (command == "screen") type = screen;
         else if (command == "scheduler-test") type = scheduler_test;
         else if (command == "scheduler-stop") type = scheduler_stop;
         else if (command == "report-util") type = report_util;
         else if (command == "clear") type = clear;
-        else if (command == "marquee") type = marquee;
-        else if (command == "exit_marquee") type = exit_marquee;
         else if (command == "exit") type = exit_menu;
+        else if (command == "exit_marquee") type = exit_marquee;
+        else if (command == "marquee") type = marquee;
         else type = unknown;
     }
 };

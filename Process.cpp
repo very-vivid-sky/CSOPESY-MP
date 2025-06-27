@@ -43,6 +43,16 @@ int Process::getPid() { return pid; };
 // Getter: gets finished bool
 bool Process::isFinished() { return finished; };
 
+// Getter: gets address to this process's instruction list
+Instructions::InstructionList* Process::getInstructionList() {
+	return &instructionList;
+};
+
+// Getter: gets address to this process's symbol table
+Symbols::SymbolTable* Process::getSymbolTable() {
+	return &symbolTable;
+};
+
 // Getter: gets current core
 int Process::getCore() { return currentCore; };
 

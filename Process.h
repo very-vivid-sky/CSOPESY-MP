@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TypedefRepo.h"
+#include "InstructionList.h"
 #include "SymbolTable.h"
 
 namespace Processes {
@@ -14,7 +15,7 @@ namespace Processes {
 
     class Process {
         public:
-            Process(std::string newTime);
+            Process(std::string newName);
 
             std::string getName();
             std::time_t getCreationTime();
@@ -24,6 +25,8 @@ namespace Processes {
             int getPid();
             int getCore();
             bool isFinished();
+            Instructions::InstructionList* getInstructionList();
+            Symbols::SymbolTable* getSymbolTable();
 
             void setCore(int newCore);
 
@@ -39,7 +42,9 @@ namespace Processes {
             int pid;
             bool finished;
 
+            Instructions::InstructionList instructionList;
             Symbols::SymbolTable symbolTable;
+
 
             int currentCore;
     };

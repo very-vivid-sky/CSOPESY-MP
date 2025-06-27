@@ -78,6 +78,9 @@
     <ClCompile Include="MarqueeConsole.cpp">
       <Filter>Console</Filter>
     </ClCompile>
+    <ClCompile Include="ScreenConsole.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="InstructionGen.h">
       <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenConsole.h">
+      <Filter>Console</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
