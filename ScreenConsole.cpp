@@ -29,18 +29,33 @@ void ScreenConsole::process() {
 
 
     const char* header = "Hello You're in the Screen CONSOLE\n Input any command to exit this screen\n";
-    // outConsole is a global variable ; check ConsoleGlobals.h
-    std::cout << "Process name: " << this->getName() << "\n" << std::endl;
-    WriteConsoleA(outConsole, header, strlen(header), nullptr, nullptr);
+    WriteConsoleA(outConsole, header, strlen(header), nullptr, nullptr);  
 
     while (ScreenConsoleRunning) {
+
+        std::cout << "Process name: " << this->getName() << "\n" << std::endl;
+        std::cout << "ID: " << this->targetProcess->getPid() << "\n" << std::endl;
+        std::cout << "Logs: " << this->targetProcess->getPid() << "\n" << std::endl;
+        std::cout << "\tINSERT SAMPLE RUNNING OF PROGRAMS " << this->targetProcess->getPid() << "\n" << std::endl;
+        std::cout << "\nCurrent instruction line: " << "BRUTE FORCE, NO VALUE YET" << "\n" << std::endl;
+        std::cout << "\nLines of code: " << this->targetProcess->getTotalCommands() << "\n" << std::endl;
+
         std::string input = InputManager::getInputWithPrompt("Screen - Enter command");
         int idx = 1;
         Command currCommand = Command(input);
 
-        if (currCommand.getRaw().size() > 0) {
+        if (currCommand.getRaw().compare("process-smi")==0) {
+            std::cout << "display current processes";
+            continue;
+        }
+        else if(currCommand.getRaw().compare("exit")==0){
             ScreenConsoleRunning = false;
-            ConsoleManager::getInstance()->returnToPreviousConsole();
+
+            ConsoleManager::getInstance()->closeConsoleAndReturnToPrevious();
+
+        }
+        else {
+            std::cout << "Command not recognized. \n" << std::endl;
         }
 
     }
