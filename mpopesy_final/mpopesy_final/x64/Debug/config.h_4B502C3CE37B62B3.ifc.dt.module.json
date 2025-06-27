@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\config.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\config.h_4B502C3CE37B62B3.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\config.h_4B502C3CE37B62B3.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\config.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "D:\\assignments on the go\\15 - DLSU\\CSOPESY\\Operating System MP\\mpopesy_final\\config.h",
+                    "source-path": "d:\\assignments on the go\\15 - dlsu\\csopesy\\operating system mp\\mpopesy_final\\config.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

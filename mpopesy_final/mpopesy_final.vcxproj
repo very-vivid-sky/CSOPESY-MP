@@ -134,8 +134,10 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Instruction.cpp" />
     <ClCompile Include="InstructionList.cpp" />
+    <ClCompile Include="InstructionGen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainConsole.cpp" />
+    <ClCompile Include="MarqueeConsole.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="startsystem.cpp" />
@@ -144,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h" />
+    <ClInclude Include="AddCommand.h" />
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConsoleGlobals.h" />
@@ -152,7 +155,9 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="InstructionList.h" />
+    <ClInclude Include="InstructionGen.h" />
     <ClInclude Include="MainConsole.h" />
+    <ClInclude Include="MarqueeConsole.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Symbol.h" />

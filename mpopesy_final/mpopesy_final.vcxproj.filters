@@ -72,6 +72,12 @@
     <ClCompile Include="ForInstruction.cpp">
       <Filter>Instructions</Filter>
     </ClCompile>
+    <ClCompile Include="InstructionGen.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="MarqueeConsole.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h">
@@ -117,6 +123,15 @@
       <Filter>Instructions</Filter>
     </ClInclude>
     <ClInclude Include="ForInstruction.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="MarqueeConsole.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="AddCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InstructionGen.h">
       <Filter>Instructions</Filter>
     </ClInclude>
   </ItemGroup>

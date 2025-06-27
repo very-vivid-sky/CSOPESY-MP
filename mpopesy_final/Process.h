@@ -4,6 +4,14 @@
 #include "SymbolTable.h"
 
 namespace Processes {
+    enum processState {
+        newly,      // process is created
+        ready,      // process is waiting to be assigned to a processor (in a ReadyQueue)
+        waiting,    // waiting for an event (I/O or event completion)
+        running,    // process is being executed
+        terminated, // process has finished executing
+    };
+
     class Process {
         public:
             Process(std::string newTime);

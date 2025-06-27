@@ -1,4 +1,2 @@
-﻿  InstructionList.cpp
-D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\InstructionList.cpp(83,23): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\InstructionList.cpp(84,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+﻿  main.cpp
   mpopesy_final.vcxproj -> D:\assignments on the go\15 - DLSU\CSOPESY\Operating System MP\mpopesy_final\x64\Debug\mpopesy_final.exe

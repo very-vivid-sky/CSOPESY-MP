@@ -14,6 +14,8 @@
 HANDLE outConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE inConsole = GetStdHandle(STD_INPUT_HANDLE);
 
+bool OS_RUNNING = true;
+
 int main() {
 	/*
 	// CY: scheduler debug
@@ -29,7 +31,6 @@ int main() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	Scheduler::MainScheduler->screenList(&std::cout);
 	while (true) {};
-	*/
 
 	// CY: InstructionList debug
 	Instructions::InstructionList il = Instructions::InstructionList();
@@ -43,6 +44,7 @@ int main() {
 		ilm.runNext();
 	}
 	std::cout << "\n\n" << std::to_string(ilm.getLineCount()) << " | " << std::to_string(ilm.getLineCountFull());
+	*/
 
 	//bootstrap
 	//initialize
@@ -50,9 +52,9 @@ int main() {
 	//enter main loop 
 	//delete and clear memory
 
-	/*
 	ConsoleManager::initialize();
-	bool OS_RUNNING = true;
+	Scheduler::MainScheduler = new Scheduler::SchedulerClass();
+	Scheduler::MainScheduler->runSchedulerTest();
 
 	while (OS_RUNNING) {
 		ConsoleManager::getInstance()->process();    // get first the process 
@@ -63,5 +65,4 @@ int main() {
 
 	ConsoleManager::destroy();
 	return 0;
-	*/
 }

@@ -6,13 +6,15 @@
 #include "AConsole.h"
 #include "TypedefRepo.h"
 #include "MainConsole.h"
+#include "MarqueeConsole.h"
 #include "ConsoleGlobals.h"
+#include "Process.h"
 
 const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
 const String SCHEDULING_CONSOLE = "SCHEDULING_CONSOLE";
 const String MEMORY_CONSOLE = "MEMORY_CONSOLE";
-extern class OS_RUNNING;
+
 
 class ConsoleManager {
 
@@ -21,14 +23,14 @@ public:
     typedef std::unordered_map<String, std::shared_ptr<AConsole>> ConsoleTable;
 
     /*
-    * @brief retreives the instance <sharedInstance> of the ConsoleManager 
+    * @brief retreives the instance <sharedInstance> of the ConsoleManager
     *
     */
     static ConsoleManager* getInstance();
 
 
     /* @brief initializes the Console Manager
-    * 
+    *
     * This member function is the one used create the instance of Console Manager
     */
     static void initialize();
@@ -40,15 +42,15 @@ public:
     static void destroy();
 
     /*
-    * @brief Draws the screen of the current console from the <ConsoleTable> 
-    * 
+    * @brief Draws the screen of the current console from the <ConsoleTable>
+    *
     */
     void drawConsole() const;
 
     /*
-    * @brief shows the process of the current console 
-    * 
-    * 
+    * @brief shows the process of the current console
+    *
+    *
     */
     void process() const;
 
@@ -60,8 +62,8 @@ public:
 
 
     /*
-    * @brief Goes back to <previousConsole> NOT YET IMPLEMENTED 
-    * 
+    * @brief Goes back to <previousConsole> NOT YET IMPLEMENTED
+    *
     */
     void returnToPreviousConsole();
 
@@ -89,12 +91,18 @@ public:
     */
     void setCursorPosition(int posX, int posY) const;
 
-   /*
-   * @brief Clears the screen
-   */
+    /*
+    * @brief Clears the screen
+    */
     static void refresh();
 
+    void stopRunning();
 
+
+
+
+    void addAndGoToConsole(AConsole* c);
+    void addConsole(AConsole* c);
 
 private:
     ConsoleManager();
@@ -107,9 +115,20 @@ private:
 
     std::shared_ptr<AConsole> currentConsole;
     std::shared_ptr<AConsole> previousConsole;
+    std::shared_ptr<AConsole> tempConsole;
 
     bool running = true;
 
-    std::shared_ptr<MainConsole> mainConsole;
+    //Cys variables
+    /*int size;
+    AConsole* mainMenu;
+    AConsole* currentConsole;
+    AConsole** allConsoles;
+    bool* activeConsoles;*/
+
+    //add console 
+    //remove console 
+    void addConsole(String newconsoleName);
+
 
 };

@@ -16,6 +16,8 @@ enum CommandType {
     scheduler_stop,
     report_util,
     clear,
+    marquee,
+    exit_marquee,
     exit_menu
 };
 
@@ -104,6 +106,8 @@ private:
         else if (command == "scheduler-stop") type = scheduler_stop;
         else if (command == "report-util") type = report_util;
         else if (command == "clear") type = clear;
+        else if (command == "marquee") type = marquee;
+        else if (command == "exit_marquee") type = exit_marquee;
         else if (command == "exit") type = exit_menu;
         else type = unknown;
     }

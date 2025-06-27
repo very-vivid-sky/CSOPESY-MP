@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "mpopesy_final\\x64\\Debug\\ICommand.obj",
+            "outputs": [
+                "mpopesy_final\\x64\\Debug\\ICommand.h_8E6699E66736CE5D.ifc.dt.module.json",
+                "mpopesy_final\\x64\\Debug\\ICommand.h_8E6699E66736CE5D.ifc.dt.d.json",
+                "mpopesy_final\\x64\\Debug\\ICommand.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "D:\\assignments on the go\\15 - DLSU\\CSOPESY\\Operating System MP\\mpopesy_final\\ICommand.h",
+                    "source-path": "d:\\assignments on the go\\15 - dlsu\\csopesy\\operating system mp\\mpopesy_final\\icommand.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}
