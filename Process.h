@@ -37,10 +37,7 @@ namespace Processes {
         private:
             std::string name;
             std::time_t creationTime;
-            int totalCommands;
-            int nextLine;
             int pid;
-            bool finished;
 
             Instructions::InstructionList instructionList;
             Symbols::SymbolTable symbolTable;

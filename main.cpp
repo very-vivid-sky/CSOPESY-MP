@@ -6,8 +6,7 @@
 #include "Scheduler.h"
 #include "Config.h"
 
-#include "InstructionList.h"
-#include "ForInstruction.h"
+#include "Process.h"
 
 
 //extern variables store at ConsoleGlobals.h
@@ -18,8 +17,17 @@ bool OS_RUNNING = true;
 
 int main() {
 	/*
-	// CY: scheduler debug
+	// CY: process 
 	Config::initConfig("config.txt");
+	Processes::Process p = Processes::Process("Test process");
+	int i = 0;
+	while (!p.isFinished()) {
+		std::cout << p.getNextLine() << "\n";
+		p.run();
+	}
+	std::cout << "\n\nOFFICIAL COUNT: " << p.getTotalCommands();
+
+	// CY: scheduler debug
 	Scheduler::MainScheduler = new Scheduler::SchedulerClass();
 	Scheduler::MainScheduler->runSchedulerTest();
 	Scheduler::MainScheduler->addToQueue(new Processes::Process("HelloWorld0"));

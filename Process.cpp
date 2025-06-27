@@ -2,18 +2,21 @@
 #include <string>
 #include <ctime>
 #include "Process.h"
+#include "InstructionList.h"
+#include "InstructionGen.h"
 
 using namespace Processes;
 
 Process::Process(std::string newName) {
 	name = newName;
 	creationTime = std::time(0);
-	totalCommands = 10;
-	nextLine = 0;
 	pid = 0;
-	finished = false;
 	currentCore = -1;
 	symbolTable = Symbols::SymbolTable();
+
+	instructionList = Instructions::InstructionList();
+	instructionList.pushInstruction(Instructions::InstructionGenerator(this).generateInstructionList());
+	instructionList.lock();
 }
 
 // Getter: gets name
@@ -32,16 +35,16 @@ std::string Process::getFormattedCreationTime() {
 };
 
 // Getter: gets total commands
-int Process::getTotalCommands() { return totalCommands; };
+int Process::getTotalCommands() { return instructionList.getLineCountFull(); };
 
 // Getter: gets next line int
-int Process::getNextLine() { return nextLine; };
+int Process::getNextLine() { return instructionList.getCurrentLine(); };
 
 // Getter: gets pid
 int Process::getPid() { return pid; };
 
 // Getter: gets finished bool
-bool Process::isFinished() { return finished; };
+bool Process::isFinished() { return instructionList.isFinished(); };
 
 // Getter: gets address to this process's instruction list
 Instructions::InstructionList* Process::getInstructionList() {
@@ -61,12 +64,5 @@ void Process::setCore(int newCore) { currentCore = newCore; }
 
 // Runs the next line of this process
 void Process::run() {
-	// TODO: run here !
-	std::cout << "Hello world from " + name + "! | Iter " + std::to_string(nextLine) + "\n";
-
-	// incrementations
-	nextLine++;
-	if (nextLine >= totalCommands) {
-		finished = true;
-	}
+	instructionList.runNext();
 }
