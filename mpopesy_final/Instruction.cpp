@@ -7,11 +7,6 @@
 
 using namespace Instructions;
 
-// Gets the type of this Instruction
-InstructionType Instruction::getType() {
-	return type;
-}
-
 // Initializes a new generic PrintInstruction
 PrintInstruction::PrintInstruction() {
 	toPrint = "Hello world!";

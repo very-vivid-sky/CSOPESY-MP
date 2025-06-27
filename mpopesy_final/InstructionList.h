@@ -12,14 +12,26 @@ namespace Instructions {
 			~InstructionList();
 			void pushInstruction(Instruction* inst);
 			void pushInstruction(std::vector<Instruction*> insts);
+
 			void runNext();
 			bool hasStarted();
 			bool isFinished();
+
 			void reset();
+			bool lock();
+
+			int getCurrentLine();
+			int getLineCount();
+			int getLineCountFull();
 
 		private:
+			bool locked;
 			int currentLine;
+			int lineCount;
+			int lineCountFull;
+
 			std::vector<Instruction*> list;
 			Symbols::SymbolTable table;
+
 	};
 }

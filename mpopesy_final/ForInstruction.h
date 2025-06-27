@@ -13,7 +13,14 @@ namespace Instructions {
 	public:
 		ForInstruction(int i, InstructionList* newIl);
 		~ForInstruction();
+		InstructionType getType() { return forloop; };
 		bool run();
+
+		int getCurrentLine();
+		int getLineCount();
+		int getLineCountFull();
+
+
 	private:
 		InstructionList* il;
 		int iterTimes;

@@ -31,6 +31,19 @@ int main() {
 	while (true) {};
 	*/
 
+	// CY: InstructionList debug
+	Instructions::InstructionList il = Instructions::InstructionList();
+	Instructions::InstructionList ilm = Instructions::InstructionList();
+	il.pushInstruction(new Instructions::PrintInstruction(&std::cout, "Hello world from debug! (0)\n"));
+	il.pushInstruction(new Instructions::PrintInstruction(&std::cout, "Hello world from debug! (1)\n"));
+	il.pushInstruction(new Instructions::PrintInstruction(&std::cout, "Hello world from debug! (2)\n"));
+	ilm.pushInstruction(new Instructions::ForInstruction(3, &il));
+
+	while (!ilm.isFinished()) {
+		ilm.runNext();
+	}
+	std::cout << "\n\n" << std::to_string(ilm.getLineCount()) << " | " << std::to_string(ilm.getLineCountFull());
+
 	//bootstrap
 	//initialize
 	//start systerm services

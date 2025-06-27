@@ -18,7 +18,7 @@ bool ForInstruction::run() {
 	il->runNext();
 
 	// reset and decrement iterTimes if we're done
-	if (il->isFinished()) { il->reset(); iterTimes--; };
+	if (il->isFinished()) { il->reset(); iterTimes--; }
 
 	// if we're really done, return true
 	if (iterTimes == 0) { return true; }
@@ -29,3 +29,12 @@ bool ForInstruction::run() {
 ForInstruction::~ForInstruction() {
 	delete il;
 }
+
+// Getter: gets the current line number
+int ForInstruction::getCurrentLine() { return il->getCurrentLine(); };
+
+// Getter: gets the line count of this InstructionList
+int ForInstruction::getLineCount() { return il->getLineCount(); };
+
+// Getter: gets the full line count including all for()
+int ForInstruction::getLineCountFull() { return il->getLineCountFull(); };

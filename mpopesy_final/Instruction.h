@@ -47,9 +47,7 @@ namespace Instructions {
 	class Instruction {
 		public:
 			virtual bool run() { return true; };
-			InstructionType getType();
-		private:
-			InstructionType type = unknown;
+			virtual InstructionType getType() { return unknown; };
 	};
 
 	// Print instruction - prints a given string
@@ -57,11 +55,11 @@ namespace Instructions {
 		public:
 			PrintInstruction();
 			PrintInstruction(std::ostream* streamToUse, std::string str);
+			InstructionType getType() { return print; };
 			bool run();
 		private:
 			std::string toPrint;
 			std::ostream* stream;
-			const InstructionType type = print;
 	};
 
 	// Declare instruction - declares a new variable
@@ -69,26 +67,25 @@ namespace Instructions {
 		public:
 			DeclareInstruction(Symbols::SymbolTable* tableAddr, std::string newName);
 			DeclareInstruction(Symbols::SymbolTable* tableAddr, std::string newName, unsigned int newVal);
+			InstructionType getType() { return declare; };
 			bool run();
 		private:
 			Symbols::SymbolTable* table;
 			std::string name;
 			unsigned int val;
-			const InstructionType type = declare;
 	};
 
 	// Add instruction - adds two variables / values together and puts the result in a third
 	class AddInstruction : public Instruction {
 		public:
 			template<typename T1, typename T2> AddInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
+			InstructionType getType() { return add; };
 			bool run();
 		private:
 			Symbols::SymbolTable* table;
 			std::string dest;
 			InstructionValueHolder val1;
 			InstructionValueHolder val2;
-
-			const InstructionType type = add;
 	};
 
 
@@ -96,20 +93,20 @@ namespace Instructions {
 	class SubtractInstruction : public Instruction {
 		public:
 			template<typename T1, typename T2> SubtractInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
+			InstructionType getType() { return subtract; };
 			bool run();
 		private:
 			Symbols::SymbolTable* table;
 			std::string dest;
 			InstructionValueHolder val1;
 			InstructionValueHolder val2;
-
-			const InstructionType type = subtract;
 	};
 
 	// Sleep instruction - sleeps for n cpu ticks
 	class SleepInstruction : public Instruction {
 		public:
 			SleepInstruction(int timeToSleep);
+			InstructionType getType() { return sleep; };
 			bool run();
 		private:
 			int time;
