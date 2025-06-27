@@ -6,7 +6,10 @@
 
 ConsoleManager* ConsoleManager::sharedInstance = nullptr;
 
-
+/// <summary>
+/// / THIS IS oldd
+/// </summary>
+/// <returns></returns>
 
 ConsoleManager* ConsoleManager::getInstance() {
     if (sharedInstance == nullptr) {

@@ -1,7 +1,14 @@
-﻿  ConsoleManager.cpp
-  MainConsole.cpp
-C:\Users\cacat\source\mpopesy_final\MainConsole.cpp(46,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
-C:\Users\cacat\source\mpopesy_final\MainConsole.cpp(71,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+﻿  AConsole.cpp
+  bootstrap.cpp
+  CommandHandler.cpp
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\CommandHandler.cpp(9,29): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  ConsoleManager.cpp
+  initialize.cpp
+  InputManager.cpp
   main.cpp
+  MainConsole.cpp
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\MainConsole.cpp(46,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\MainConsole.cpp(71,42): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+  startsystem.cpp
   Generating Code...
-  mpopesy_final.vcxproj -> C:\Users\cacat\source\mpopesy_final\x64\Debug\mpopesy_final.exe
+  mpopesy_final.vcxproj -> C:\Users\cacat\Downloads\OPESY LECTURES\CSOPESY-MP\mpopesy_final\x64\Debug\mpopesy_final.exe
