@@ -130,16 +130,6 @@ void ConsoleManager::addConsole(String newconsoleName) {
         //create the process
         Processes::Process* proc = new Processes::Process(newconsoleName);
 
-        /*
-        proc->name = newconsoleName;
-        proc->creationTime = time(0);
-        proc->totalCommands = ICommand::generateRandNum(); //generates the total number of commands 
-        proc->executedCommands = 0;
-        proc->pid = consoleTable.size();
-        proc->finished = false;
-        */
-
-
         //create the console with the process
         const std::shared_ptr<ScreenConsole> consoleNew = std::make_shared<ScreenConsole>(proc);
         this->consoleTable[newconsoleName] = consoleNew;
@@ -177,6 +167,15 @@ ConsoleManager::ConsoleManager() {
     currentConsole = mainMenu;*/
 }
 
+
+bool ConsoleManager::findConsole(std::string consoleName) {
+    auto consoleFound = consoleTable.find(consoleName);
+    bool found = false; 
+    if (consoleFound != consoleTable.end()) {
+        found = true;
+    }
+    return found;
+}
 
 //void ConsoleManager::addConsole(AConsole* c) {
 //   /* for (int i = 0; i < size; i++) {

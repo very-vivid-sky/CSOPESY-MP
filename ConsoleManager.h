@@ -100,8 +100,9 @@ public:
 
 
 
+    bool findConsole(String consoleName);
+    void addConsole(String newconsoleName);
 
-    void addAndGoToConsole(AConsole* c);
     void addConsole(AConsole* c);
 
 private:
@@ -128,7 +129,6 @@ private:
 
     //add console 
     //remove console 
-    void addConsole(String newconsoleName);
 
 
 };
