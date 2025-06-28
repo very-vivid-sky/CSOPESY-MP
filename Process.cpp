@@ -1,9 +1,13 @@
 #include <iostream>
 #include <string>
+#include <chrono>
 #include <ctime>
+#include <thread>
+#include "Config.h"
 #include "Process.h"
 #include "InstructionList.h"
 #include "InstructionGen.h"
+#include "Scheduler.h"
 
 using namespace Processes;
 

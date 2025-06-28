@@ -13,7 +13,7 @@ enum CommandType {
     unknown,
     initialize,
     screen,
-    scheduler_test,
+    scheduler_start,
     scheduler_stop,
     report_util,
     clear,
@@ -68,13 +68,6 @@ public:
     */
     bool hasFlag(const std::string& flag) const;
 
-
-
-    /*
-    * TODO: 4 Where does this function fit in? Can I delete this?
-    */
-    void runCommandHandler();
-
 private:
     std::string raw;
     CommandType type;
@@ -102,9 +95,11 @@ private:
         const std::string& command = tokens[0];
 
 
-        if (command == "initialize") type = initialize;
+        if (command == "init") type = initialize;
+        else if (command == "initialize") type = initialize;
         else if (command == "screen") type = screen;
-        else if (command == "scheduler-test") type = scheduler_test;
+        else if (command == "scheduler-start") type = scheduler_start;
+        else if (command == "scheduler-test") type = scheduler_start;
         else if (command == "scheduler-stop") type = scheduler_stop;
         else if (command == "report-util") type = report_util;
         else if (command == "clear") type = clear;

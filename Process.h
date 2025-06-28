@@ -1,5 +1,6 @@
 #pragma once
 
+#include <thread>
 #include "TypedefRepo.h"
 #include "InstructionList.h"
 #include "SymbolTable.h"
