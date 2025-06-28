@@ -9,5 +9,7 @@
 
 
 **Compilation:**
+- Download the repository.
+- Run the file `compile.bat` or use the command `g++ -o run.exe main.cpp`
 
-Run the file `compile.bat` or use the command `g++ -o run.exe main.cpp`
+
