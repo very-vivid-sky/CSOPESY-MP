@@ -23,9 +23,10 @@ namespace Instructions {
 		public:
 			InstructionGenerator(Processes::Process* p);
 			InstructionGenerator(Processes::Process* p, int count);
+			std::vector<Instruction*> generateInstructionList();
 			
 			// togglable
-			bool allowFor = true;
+			bool allowFor = false;
 
 		private:
 			Processes::Process* thisProcess;
@@ -33,6 +34,7 @@ namespace Instructions {
 			int variableCount;
 			std::vector<std::string> variableNames;
 
+			std::string getRandomVariable();
 			Instruction* generateLine();
 			PrintInstruction* generateLine_print();
 			DeclareInstruction* generateLine_declare();

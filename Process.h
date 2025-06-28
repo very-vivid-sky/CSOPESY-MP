@@ -1,5 +1,7 @@
 #pragma once
 
+#include <thread>
+#include "ProcessLog.h"
 #include "TypedefRepo.h"
 #include "InstructionList.h"
 #include "SymbolTable.h"
@@ -25,25 +27,24 @@ namespace Processes {
             int getPid();
             int getCore();
             bool isFinished();
+
             Instructions::InstructionList* getInstructionList();
             Symbols::SymbolTable* getSymbolTable();
+            std::vector<ProcessLog>* getProcessLog();
 
             void setCore(int newCore);
-
             void run();
-
             Mutex mtx;
 
         private:
             std::string name;
             std::time_t creationTime;
-            int totalCommands;
-            int nextLine;
+            std::vector<ProcessLog> processLog;
             int pid;
-            bool finished;
 
             Instructions::InstructionList instructionList;
             Symbols::SymbolTable symbolTable;
+            std::vector<ProcessLog> log;
 
 
             int currentCore;

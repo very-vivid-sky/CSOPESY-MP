@@ -1,28 +1,31 @@
+#include <chrono>
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <thread>
 #include <vector>
 #include "SymbolTable.h"
 #include "Instruction.h"
+#include "ProcessLog.h"
 
 using namespace Instructions;
 
 // Initializes a new generic PrintInstruction
-PrintInstruction::PrintInstruction() {
+PrintInstruction::PrintInstruction(std::vector<Processes::ProcessLog>* logAddr) {
 	toPrint = "Hello world!";
-	stream = &std::cout;
+	log = logAddr;
 }
 
 // Initializes a new PrintInstruction using the string to print
-PrintInstruction::PrintInstruction(std::ostream* streamToUse, std::string str) {
+PrintInstruction::PrintInstruction(std::vector<Processes::ProcessLog>* logAddr, std::string str) {
 	toPrint = str;
-	stream = streamToUse;
+	log = logAddr;
 }
 
 // Runs PrintInstruction:
 // prints a given string to a certain ostream
 bool PrintInstruction::run() {
-	*stream << toPrint;
+	log->push_back(Processes::ProcessLog(toPrint));
 	return true;
 }
 
@@ -45,18 +48,10 @@ DeclareInstruction::DeclareInstruction(Symbols::SymbolTable* tableAddr, std::str
 bool DeclareInstruction::run() {
 	if (!(table->nameExists(name))) {
 		table->addSymbol(name, val);
-	};
-	// else, quietly ignore
+	} else {
+		table->setVal(name, val);
+	}
 	return true;
-}
-
-// Initializes a new AddInstruction given a dest address and two ints or symbol table references
-template<typename T1, typename T2>
-AddInstruction::AddInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw) {
-	table = tableAddr;
-	dest = destName;
-	val1 = InstructionValueHolder(val1Raw);
-	val2 = InstructionValueHolder(val2Raw);
 }
 
 // RunsAddInstruction:
@@ -66,15 +61,6 @@ bool AddInstruction::run() {
 	temp = val1.get(table) + val2.get(table);
 	table->addOrSetVal(dest, temp);
 	return true;
-}
-
-// Initializes a new AddInstruction given a dest address and two ints or symbol table references
-template<typename T1, typename T2>
-SubtractInstruction::SubtractInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw) {
-	table = tableAddr;
-	dest = destName;
-	val1 = InstructionValueHolder(val1Raw);
-	val2 = InstructionValueHolder(val2Raw);
 }
 
 // Runs SubtractInstruction:
@@ -94,9 +80,6 @@ SleepInstruction::SleepInstruction(int timeToSleep) {
 // Runs SleepInstruction:
 // Sleeps the process for n cpu ticks
 bool SleepInstruction::run() {
-	if (time > 0) {
-		time--;
-		return false;
-	}
-	else return true;
+	std::this_thread::sleep_for(std::chrono::milliseconds(time));
+	return true;
 }

@@ -2,6 +2,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include "ProcessLog.h"
 #include "SymbolTable.h"
 
 namespace Instructions {
@@ -11,6 +12,9 @@ namespace Instructions {
 
 		// Holds either a uint16 or reference to a symbol table symbol holding one
 		struct InstructionValueHolder {
+			InstructionValueHolder() {
+				isStr = false; valueStr = ""; valueInt = 0;
+			}
 			InstructionValueHolder(std::string val) {
 				isStr = true; valueStr = val; valueInt = 0;
 			}
@@ -53,13 +57,13 @@ namespace Instructions {
 	// Print instruction - prints a given string
 	class PrintInstruction : public Instruction {
 		public:
-			PrintInstruction();
-			PrintInstruction(std::ostream* streamToUse, std::string str);
+			PrintInstruction(std::vector<Processes::ProcessLog>* logAddr);
+			PrintInstruction(std::vector<Processes::ProcessLog>* logAddr, std::string str);
 			InstructionType getType() { return print; };
 			bool run();
 		private:
 			std::string toPrint;
-			std::ostream* stream;
+			std::vector<Processes::ProcessLog>* log;
 	};
 
 	// Declare instruction - declares a new variable
@@ -78,7 +82,16 @@ namespace Instructions {
 	// Add instruction - adds two variables / values together and puts the result in a third
 	class AddInstruction : public Instruction {
 		public:
-			template<typename T1, typename T2> AddInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
+
+			// Initializes a new AddInstruction given a dest address and two ints or symbol table references
+			template<typename T1, typename T2>
+			AddInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw) {
+				table = tableAddr;
+				dest = destName;
+				val1 = InstructionValueHolder(val1Raw);
+				val2 = InstructionValueHolder(val2Raw);
+			}
+
 			InstructionType getType() { return add; };
 			bool run();
 		private:
@@ -92,7 +105,16 @@ namespace Instructions {
 	// Subtract instruction - subtracts two variables / values together and puts the result in a third
 	class SubtractInstruction : public Instruction {
 		public:
-			template<typename T1, typename T2> SubtractInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw);
+			
+			// Initializes a new AddInstruction given a dest address and two ints or symbol table references
+			template<typename T1, typename T2>
+			SubtractInstruction(Symbols::SymbolTable* tableAddr, std::string destName, T1 val1Raw, T2 val2Raw) {
+				table = tableAddr;
+				dest = destName;
+				val1 = InstructionValueHolder(val1Raw);
+				val2 = InstructionValueHolder(val2Raw);
+			}
+
 			InstructionType getType() { return subtract; };
 			bool run();
 		private:
@@ -111,4 +133,6 @@ namespace Instructions {
 		private:
 			int time;
 	};
+
+
 }

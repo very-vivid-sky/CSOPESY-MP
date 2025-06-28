@@ -92,6 +92,8 @@ bool InstructionList::lock() {
 			lineCountFull += curr;								// merge with official line count now
 		}
 	}
+
+	locked = true;
 	
 	return true;
 }
