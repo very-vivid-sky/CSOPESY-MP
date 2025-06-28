@@ -30,6 +30,7 @@ std::queue<Processes::Process*> Scheduler::readyQueue;
 
 static std::mutex queueMutex;   //protects readyQueue resource
 static std::mutex coreMapMutex; //protects 
+static std::mutex rpMutex;      // for runningProcesses
 static std::condition_variable cv;
 static std::atomic<bool> schedulerRunning(true);
 static std::atomic<bool> emulatorRunning(true);
@@ -51,9 +52,11 @@ static void cpuWorker(int coreId) {
         //get process from queue
         {
             std::unique_lock<std::mutex> lock(queueMutex);
-            cv.wait(lock, [] { return !readyQueue.empty() || !schedulerRunning; });
+            cv.wait(lock, [] { return !readyQueue.empty(); });
 
-            if (!schedulerRunning) break;
+            // are there even processes still?
+            // if (readyQueue.empty() <= 0) { schedulerRunning = false; }
+            if (!schedulerRunning) { std::cout << "x";  break; };
 
             proc = readyQueue.front();
             readyQueue.pop();
@@ -61,7 +64,7 @@ static void cpuWorker(int coreId) {
 
         //mark process as running
         {
-            std::lock_guard<std::mutex> lock(proc->mtx);
+            std::lock_guard<std::mutex> lock(rpMutex);
             runningProcesses.push_back(proc);
         }
 
@@ -87,7 +90,7 @@ static void cpuWorker(int coreId) {
 
         //check if process is finished & mark, otherwise add back to queue 
         {
-            std::lock_guard<std::mutex> lock(proc->mtx);
+            std::lock_guard<std::mutex> lock(rpMutex);
 
             if (proc->isFinished()) {
                 finishedProcesses.push_back(proc);
@@ -96,7 +99,6 @@ static void cpuWorker(int coreId) {
                 readyQueue.push(proc);
             }
 
-            // TODO causes out of bounds and from different containers and iterator bugs occasionally, fix pls? :pleading: -cy
             runningProcesses.erase(remove(runningProcesses.begin(), runningProcesses.end(), proc), runningProcesses.end());
         }
 
@@ -135,12 +137,17 @@ static void schedulerThread() {
     }
     */
 
-    while (finishedProcesses.size() < Scheduler::MainScheduler->NUM_PROCESSES) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500)); //run the processes
-    }
+    /*
+    if (schedulerRunning == false) {
+        schedulerRunning = true;
+        while (finishedProcesses.size() < Scheduler::MainScheduler->NUM_PROCESSES) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500)); //run the processes
+        }
 
-    schedulerRunning = false;
-    cv.notify_all();
+        schedulerRunning = false;
+        cv.notify_all();
+    }
+    */
 }
 
 // Initializes a scheduler
@@ -152,10 +159,10 @@ SchedulerClass::SchedulerClass() {
 
 // FUNCTION BLOCK -- EXECUTES scheduler - test
 void SchedulerClass::runSchedulerTest() {
-    // For every thread, run a cpuWorker
-    for (int i = 0; i < Scheduler::MainScheduler->NUM_CORES; i++) {
-        cpuThreads.emplace_back(cpuWorker, i);
-    }
+     // For every thread, run a cpuWorker
+     for (int i = 0; i < Scheduler::MainScheduler->NUM_CORES; i++) {
+         cpuThreads.emplace_back(cpuWorker, i);
+     }
 }
 
 // Sets addresses for global access
@@ -167,7 +174,9 @@ void SchedulerClass::setAddresses(std::vector<Processes::Process*>* addr1, std::
 
 // Adds a new process to the queue
 void SchedulerClass::addToQueue(Processes::Process* p) {
+    std::unique_lock<std::mutex> lock(queueMutex);
     addr_readyQueue->push(p);
+    cv.notify_all();
 }
 
 /*

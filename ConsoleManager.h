@@ -100,9 +100,14 @@ public:
 
 
 
+    bool findConsole(String consoleName);
+    void addConsole(String newconsoleName);
 
-    void addAndGoToConsole(AConsole* c);
-    void addConsole(AConsole* c);
+    /*
+    * @brief Removes the current console from the table and returns to the previous console 
+    * ;Mainly used for screen consoles
+    */
+    void closeConsoleAndReturnToPrevious();
 
 private:
     ConsoleManager();
@@ -128,7 +133,6 @@ private:
 
     //add console 
     //remove console 
-    void addConsole(String newconsoleName);
 
 
 };

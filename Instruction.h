@@ -2,6 +2,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include "ProcessLog.h"
 #include "SymbolTable.h"
 
 namespace Instructions {
@@ -56,13 +57,13 @@ namespace Instructions {
 	// Print instruction - prints a given string
 	class PrintInstruction : public Instruction {
 		public:
-			PrintInstruction();
-			PrintInstruction(std::ostream* streamToUse, std::string str);
+			PrintInstruction(std::vector<Processes::ProcessLog>* logAddr);
+			PrintInstruction(std::vector<Processes::ProcessLog>* logAddr, std::string str);
 			InstructionType getType() { return print; };
 			bool run();
 		private:
 			std::string toPrint;
-			std::ostream* stream;
+			std::vector<Processes::ProcessLog>* log;
 	};
 
 	// Declare instruction - declares a new variable

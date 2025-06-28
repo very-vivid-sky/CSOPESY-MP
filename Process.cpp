@@ -5,6 +5,7 @@
 #include <thread>
 #include "Config.h"
 #include "Process.h"
+#include "ProcessLog.h"
 #include "InstructionList.h"
 #include "InstructionGen.h"
 #include "Scheduler.h"
@@ -58,6 +59,11 @@ Instructions::InstructionList* Process::getInstructionList() {
 // Getter: gets address to this process's symbol table
 Symbols::SymbolTable* Process::getSymbolTable() {
 	return &symbolTable;
+};
+
+// Getter: gets address to this process's process log
+std::vector<ProcessLog>* Process::getProcessLog() {
+	return &processLog;
 };
 
 // Getter: gets current core
