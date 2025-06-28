@@ -188,6 +188,22 @@ void SchedulerClass::addToQueue(Processes::Process* p) {
     cv.notify_all();
 }
 
+// Linear searches allProcesses to see if this name exists in allProcesses
+bool SchedulerClass::processExists(std::string name) {
+    for (Processes::Process* p : allProcesses) {
+        if (p->getName() == name) { return true; }
+    }
+    return false;
+}
+
+// Linear searches and gets a process
+Processes::Process* SchedulerClass::getProcess(std::string name) {
+    for (Processes::Process* p : allProcesses) {
+        if (p->getName() == name) { return p; }
+    }
+    return nullptr;
+}
+
 /*
 std::vector<Processes::Process*>* SchedulerClass::getRunningProcesses() { return addr_runningProcesses; }
 std::vector<Processes::Process*>* SchedulerClass::getFinishedProcesses() { return addr_finishedProcesses; }
@@ -235,7 +251,7 @@ void SchedulerClass::screenList(std::ostream *stream) {
                 << proc->getName()
                 << " (" << proc->getFormattedCreationTime()
                 << ") Core: " << proc->getCore() << " Progress: ("
-                << proc->getNextLine() << "/" << proc->getTotalCommands()
+                << proc->getCurrentLine() << "/" << proc->getTotalCommands()
                 << ")\n";
         };
         *stream << "\nFinished processes:\n";
@@ -244,7 +260,7 @@ void SchedulerClass::screenList(std::ostream *stream) {
                 << proc->getName()
                 << " (" << proc->getFormattedCreationTime()
                 << ") Progress: ("
-                << proc->getNextLine() << "/" << proc->getTotalCommands()
+                << proc->getCurrentLine() << "/" << proc->getTotalCommands()
                 << ")\n";
         };
     }

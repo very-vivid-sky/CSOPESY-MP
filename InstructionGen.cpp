@@ -132,7 +132,7 @@ AddInstruction* InstructionGenerator::generateLine_add() {
 SubtractInstruction* InstructionGenerator::generateLine_subtract() {
 	uint16_t val1 = generateRandNum();
 	uint16_t val2 = generateRandNum_lowerthan(val1);
-	return new SubtractInstruction(thisProcess->getSymbolTable(), "hi", 0, 0);
+	return new SubtractInstruction(thisProcess->getSymbolTable(), getRandomVariable(), val1, val2);
 };
 
 // TODO

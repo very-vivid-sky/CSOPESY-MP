@@ -33,7 +33,7 @@ const char* MainConsole::getHeader() {
   |||             \ \ |||    | | |||____/  |||             \ \      | | |||_|  
   \\\____  _______/ / |||____| | |||       |||____  _______/ / _____| |  ___   
    \\\___| \\\_____/   \\\____/  |||       |||____| \\\_____/  \\\____/ |||_|  
-	)
+	
 	Welcome to CSOPESY OS!
 	by Bautista, Cacatian, De Veyra, Yee
 
@@ -112,29 +112,42 @@ void MainConsole::process() {
 				//MainScheduler->screenList(false);
 				std::cout << "\nscreen -ls atm\n\n";
 				break;
-			}else if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
+			} else if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
 				if (currCommand.getSize() < 3) {
 					std::cout << "Invalid command format.\n\n";
+					break;
 				};
-				//screen is already in the console
-				if (ConsoleManager::getInstance()->findConsole(processName)) {
+
+				// screen is already in the console
+				if (Scheduler::MainScheduler->processExists(processName) && ConsoleManager::getInstance()->findConsole(processName)) {
 					if (currCommand.hasFlag("-r")) {
 						ConsoleManager::getInstance()->switchConsole(processName);
-					}
-					else if (currCommand.hasFlag("-s")) {
-						std::cout << "Process " << processName << " already exists. Can't have multiple processses with the same name\n";
+					} else if (currCommand.hasFlag("-s")) {
+						std::cout << "Process " << processName << " already exists. Can't have multiple processses with the same name\n\n";
 						//ConsoleManager::getInstance()->addConsole(processName);
 					}
 				}
-				else { //screen is not yet in the console
+
+				// Screen is not in console but *is* in the Scheduler
+				else if (Scheduler::MainScheduler->processExists(processName)) {
+					
 					if (currCommand.hasFlag("-r")) {
-						std::cout << "Process " << processName << " can't be loaded. Maybe it's not yet created\n";
-					}
-					else if (currCommand.hasFlag("-s")) {
+						std::cout << "Process " << processName << " can't be loaded. Maybe it's not yet created\n\n";
+					} else if (currCommand.hasFlag("-s")) {
 						ConsoleManager::getInstance()->addConsole(processName);
 					}
 				}
-			}else { std::cout << "Command not recognized for screen.\n\n"; };
+
+				// screen is not yet in the console
+				else {
+					if (currCommand.hasFlag("-r")) {
+						std::cout << "Process " << processName << " can't be loaded. Maybe it's not yet created\n\n";
+					} else if (currCommand.hasFlag("-s")) {
+						Scheduler::MainScheduler->addToQueue(new Processes::Process(processName));
+						ConsoleManager::getInstance()->addConsole(processName);
+					}
+				}
+			} else { std::cout << "Command not recognized for screen.\n\n"; };
 			break;
         
         

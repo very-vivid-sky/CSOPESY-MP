@@ -1,3 +1,4 @@
+#include <mutex>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -42,7 +43,7 @@ void InstructionList::runNext() {
 	if (!isFinished()) {
 		// bool res determines if we can move on to the next line
 		bool res = list.at(currentLine)->run();
-		if (res) { currentLine++; }
+		if (res) { (currentLine)++; }
 	}
 }
 
@@ -62,7 +63,9 @@ void InstructionList::reset() {
 }
 
 // Getter: gets the current line number
-int InstructionList::getCurrentLine() { return currentLine; };
+int InstructionList::getCurrentLine() {
+	return currentLine;
+};
 
 // Getter: gets the line count of this InstructionList; locks if not yet locked
 int InstructionList::getLineCount() { lock(); return lineCount; };
@@ -77,7 +80,7 @@ bool InstructionList::lock() {
 	if (locked) { return false; }
 
 	// increment to note that this is actually usable now
-	currentLine++;
+	(currentLine)++;
 
 	// update lock list
 	lineCount = list.size();

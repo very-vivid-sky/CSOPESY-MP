@@ -16,6 +16,7 @@ public:
 	void process() override;
 	void display() override;
 	void onEnabled() override;
+	void displayProcess();
 	bool running = false;
 
 	//constructor 
@@ -24,7 +25,6 @@ public:
 	* @brief NOT FULLY IMPLEMENTED
 	*/
 	~ScreenConsole() = default;
-
 
 private:
 	Processes::Process* targetProcess;
