@@ -7,4 +7,5 @@
 - Yee, Ruth
 
 **Compilation**
+
 Run the file `compile.bat` or use the command `g++ -o run.exe main.cpp`
