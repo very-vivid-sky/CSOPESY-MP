@@ -25,7 +25,7 @@ void Scheduler::processBuilderFunc() {
 
 	// loop and create a new thread every perTicks ticks
 	while (Scheduler::runGenerator) {
-		Scheduler::readyQueue.push(new Processes::Process("prc_" + std::to_string(currProcessNumber)));
+		Scheduler::MainScheduler->addToQueue(new Processes::Process("prc_" + std::to_string(currProcessNumber)));
 		currProcessNumber++;
 		std::this_thread::sleep_for(std::chrono::milliseconds(perTicks));
 	}

@@ -6,25 +6,26 @@
 #include <vector>
 #include "SymbolTable.h"
 #include "Instruction.h"
+#include "ProcessLog.h"
 
 using namespace Instructions;
 
 // Initializes a new generic PrintInstruction
-PrintInstruction::PrintInstruction() {
+PrintInstruction::PrintInstruction(std::vector<Processes::ProcessLog>* logAddr) {
 	toPrint = "Hello world!";
-	stream = &std::cout;
+	log = logAddr;
 }
 
 // Initializes a new PrintInstruction using the string to print
-PrintInstruction::PrintInstruction(std::ostream* streamToUse, std::string str) {
+PrintInstruction::PrintInstruction(std::vector<Processes::ProcessLog>* logAddr, std::string str) {
 	toPrint = str;
-	stream = streamToUse;
+	log = logAddr;
 }
 
 // Runs PrintInstruction:
 // prints a given string to a certain ostream
 bool PrintInstruction::run() {
-	*stream << toPrint;
+	log->push_back(Processes::ProcessLog(toPrint));
 	return true;
 }
 

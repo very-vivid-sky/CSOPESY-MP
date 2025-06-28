@@ -115,7 +115,7 @@ Instruction* InstructionGenerator::generateLine() {
 
 // TODO
 PrintInstruction* InstructionGenerator::generateLine_print() {
-	return new PrintInstruction(&std::cout, "Hello world from " + thisProcess->getName());
+	return new PrintInstruction(thisProcess->getProcessLog(), "Hello world from " + thisProcess->getName());
 };
 
 // TODO

@@ -47,4 +47,5 @@ namespace Scheduler {
 	extern std::vector<Processes::Process*> runningProcesses;
 	extern std::vector<Processes::Process*> finishedProcesses;
 	extern std::queue<Processes::Process*> readyQueue;
+
 };

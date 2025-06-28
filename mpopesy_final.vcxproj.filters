@@ -84,6 +84,9 @@
     <ClCompile Include="ProcessBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProcessLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h">
@@ -144,6 +147,9 @@
       <Filter>Console</Filter>
     </ClInclude>
     <ClInclude Include="ProcessBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

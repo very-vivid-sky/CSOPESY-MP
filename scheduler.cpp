@@ -50,10 +50,13 @@ static void cpuWorker(int coreId) {
 
         //get process from queue
         {
-            std::unique_lock<std::mutex> lock(queueMutex);
-            cv.wait(lock, [] { return !readyQueue.empty() || !schedulerRunning; });
 
-            if (!schedulerRunning) break;
+            std::unique_lock<std::mutex> lock(queueMutex);
+            cv.wait(lock, [] { return !readyQueue.empty(); });
+
+            // are there even processes still?
+            // if (readyQueue.empty() <= 0) { schedulerRunning = false; }
+            if (!schedulerRunning) { std::cout << "x";  break; };
 
             proc = readyQueue.front();
             readyQueue.pop();
@@ -135,12 +138,17 @@ static void schedulerThread() {
     }
     */
 
-    while (finishedProcesses.size() < Scheduler::MainScheduler->NUM_PROCESSES) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500)); //run the processes
-    }
+    /*
+    if (schedulerRunning == false) {
+        schedulerRunning = true;
+        while (finishedProcesses.size() < Scheduler::MainScheduler->NUM_PROCESSES) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500)); //run the processes
+        }
 
-    schedulerRunning = false;
-    cv.notify_all();
+        schedulerRunning = false;
+        cv.notify_all();
+    }
+    */
 }
 
 // Initializes a scheduler
@@ -152,10 +160,10 @@ SchedulerClass::SchedulerClass() {
 
 // FUNCTION BLOCK -- EXECUTES scheduler - test
 void SchedulerClass::runSchedulerTest() {
-    // For every thread, run a cpuWorker
-    for (int i = 0; i < Scheduler::MainScheduler->NUM_CORES; i++) {
-        cpuThreads.emplace_back(cpuWorker, i);
-    }
+     // For every thread, run a cpuWorker
+     for (int i = 0; i < Scheduler::MainScheduler->NUM_CORES; i++) {
+         cpuThreads.emplace_back(cpuWorker, i);
+     }
 }
 
 // Sets addresses for global access
@@ -168,6 +176,7 @@ void SchedulerClass::setAddresses(std::vector<Processes::Process*>* addr1, std::
 // Adds a new process to the queue
 void SchedulerClass::addToQueue(Processes::Process* p) {
     addr_readyQueue->push(p);
+    cv.notify_all();
 }
 
 /*

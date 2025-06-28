@@ -169,7 +169,7 @@ void MainConsole::process() {
 				std::cout << "Automatic process generation is already running!\n\n";
 			} else {
 				std::cout << "Starting automatic process generation.\n\n";
-				Scheduler::processBuilder(); break;
+				Scheduler::processBuilder();
 			}
 			// Scheduler::runSchedulerTest();
 			// screen_ls();
@@ -177,10 +177,11 @@ void MainConsole::process() {
 		case scheduler_stop:
 			if (Scheduler::runGenerator) {
 				std::cout << "Stopping automatic process generation.\n\n";
-				Scheduler::runGenerator = false; break;
+				Scheduler::runGenerator = false;
 			} else {
 				std::cout << "Automatic process generation is already off!\n\n";
 			}
+			break;
 		case report_util:
 			std::cout << "Recognized 'report-util'. Doing something.\n\n"; break;
 		case clear:
