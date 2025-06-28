@@ -43,6 +43,8 @@ SchedulerClass* Scheduler::MainScheduler;
 
 // Simulates a CPU core
 static void cpuWorker(int coreId) {
+    int delays_per_exec = Config::get_DELAY_PER_EXEC(); // cache here
+
     while (schedulerRunning) {
         Processes::Process* proc = nullptr;
 
@@ -73,10 +75,14 @@ static void cpuWorker(int coreId) {
         // run process
         for (
             int i = 0;
+            // is this either FCFS, or still enough quantums if this is RR? is it even active yet?
             ((i < MainScheduler->QUANTUM_CYCLES) || (!MainScheduler->IS_ROUND_ROBIN)) && !(proc->isFinished());
             i++)
         {
             proc->run();
+            // sleep based on delays-per-exec. good night!
+            // wish i can say that -cy
+            std::this_thread::sleep_for(std::chrono::milliseconds(delays_per_exec));
         }
 
         //check if process is finished & mark, otherwise add back to queue 

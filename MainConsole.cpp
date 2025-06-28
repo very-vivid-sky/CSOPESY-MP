@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "ConsoleManager.h"
 #include "Config.h"
+#include "ProcessBuilder.h"
 #include "Scheduler.h"
 
 
@@ -86,7 +87,7 @@ void MainConsole::process() {
 
 		// initialize check
 		if (!(currCommand.getType() == initialize || currCommand.getType() == exit_menu) && !Config::get_initialization_status()) {
-			std::cout << "Cannot perform this action before initialization.\n";
+			std::cout << "Cannot perform this action before initialization.\n\n";
 			continue;
 		}
 
@@ -163,13 +164,23 @@ void MainConsole::process() {
 			break;
 
 
-		case scheduler_test:
-			std::cout << "Recognized 'scheduler-test'. Doing something.\n\n"; break;
+		case scheduler_start:
+			if (Scheduler::runGenerator) {
+				std::cout << "Automatic process generation is already running!\n\n";
+			} else {
+				std::cout << "Starting automatic process generation.\n\n";
+				Scheduler::processBuilder(); break;
+			}
 			// Scheduler::runSchedulerTest();
 			// screen_ls();
 			break;
 		case scheduler_stop:
-			std::cout << "Recognized 'scheduler-stop'. Doing something.\n\n"; break;
+			if (Scheduler::runGenerator) {
+				std::cout << "Stopping automatic process generation.\n\n";
+				Scheduler::runGenerator = false; break;
+			} else {
+				std::cout << "Automatic process generation is already off!\n\n";
+			}
 		case report_util:
 			std::cout << "Recognized 'report-util'. Doing something.\n\n"; break;
 		case clear:

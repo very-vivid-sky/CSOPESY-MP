@@ -1,5 +1,7 @@
+#include "Process.h"
 #include "ConsoleManager.h"
 #include "MainConsole.h"
+#include "ScreenConsole.h"
 #include "MarqueeConsole.h"
 //#include "MemorySimulationConsole.h"
 //#include "SchedulingConsole.h"
@@ -124,12 +126,26 @@ void ConsoleManager::stopRunning() {
 
 void ConsoleManager::addConsole(String newconsoleName) {
     auto found = this->consoleTable.find(newconsoleName);
-    /* if (found == this->consoleTable.end()) {
-         const std::shared_ptr<AConsole> consoleNew = std::make_shared<Process>();
-         this->consoleTable[newconsoleName] = consoleNew;
-         this->switchConsole(newconsoleName);
-     }
-     */
+    if (found == this->consoleTable.end()) {
+        //create the process
+        Processes::Process* proc = new Processes::Process(newconsoleName);
+
+        /*
+        proc->name = newconsoleName;
+        proc->creationTime = time(0);
+        proc->totalCommands = ICommand::generateRandNum(); //generates the total number of commands 
+        proc->executedCommands = 0;
+        proc->pid = consoleTable.size();
+        proc->finished = false;
+        */
+
+
+        //create the console with the process
+        const std::shared_ptr<ScreenConsole> consoleNew = std::make_shared<ScreenConsole>(proc);
+        this->consoleTable[newconsoleName] = consoleNew;
+        this->switchConsole(newconsoleName);
+    }
+
 }
 
 //constructor

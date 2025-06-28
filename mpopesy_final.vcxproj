@@ -139,7 +139,9 @@
     <ClCompile Include="MainConsole.cpp" />
     <ClCompile Include="MarqueeConsole.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="ProcessBuilder.cpp" />
     <ClCompile Include="Scheduler.cpp" />
+    <ClCompile Include="ScreenConsole.cpp" />
     <ClCompile Include="startsystem.cpp" />
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
@@ -159,7 +161,9 @@
     <ClInclude Include="MainConsole.h" />
     <ClInclude Include="MarqueeConsole.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ProcessBuilder.h" />
     <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="ScreenConsole.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="TypedefRepo.h" />
