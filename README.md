@@ -10,6 +10,7 @@
 
 **Compilation:**
 - Download the repository.
-- Run the file `compile.bat` or use the command `g++ -o run.exe main.cpp`
+- Run the file in Visual Studio 2022 as a solution.
+- Use Visual Studio's Run and Debug feature to run the file.
 
 
