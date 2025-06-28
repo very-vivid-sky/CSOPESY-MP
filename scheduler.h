@@ -32,6 +32,7 @@ namespace Scheduler {
 		const int PRINTS_PER_PROCESS = 100;
 
 		void screenList(std::ostream* stream);
+		void writeReport();
 
 	private:
 		std::vector<std::thread> cpuThreads;

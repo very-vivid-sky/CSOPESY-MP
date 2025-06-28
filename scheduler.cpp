@@ -242,7 +242,7 @@ void SchedulerClass::screenList(bool toFile) {
 */
 
 void SchedulerClass::screenList(std::ostream *stream) {
-    *stream << "-------------------------------------------------------------------------------------\n";
+    *stream << "-------------------------------------------------------------------------------------\n\n";
     {
         std::lock_guard<std::mutex> lock(coreMapMutex);
 
@@ -272,5 +272,11 @@ void SchedulerClass::screenList(std::ostream *stream) {
                 << ")\n";
         };
     }
-    *stream << "-------------------------------------------------------------------------------------\n";
+    *stream << "\n-------------------------------------------------------------------------------------\n";
+}
+
+void SchedulerClass::writeReport() {
+    std::ofstream logFile("csopesy_log.txt", std::ios::trunc);
+    screenList(&logFile);
+    logFile.close();
 }

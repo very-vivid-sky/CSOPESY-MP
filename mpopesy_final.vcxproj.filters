@@ -157,5 +157,8 @@
     <Text Include="config.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="csopesy_log.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -171,7 +171,10 @@ void MainConsole::process() {
 			}
 			break;
 		case report_util:
-			std::cout << "Recognized 'report-util'. Doing something.\n\n"; break;
+			std::cout << "Writing report to csopesy_log.txt\n\n";
+			Scheduler::MainScheduler->writeReport();
+			break;
+
 		case clear:
 			ConsoleManager::refresh();
 			this->displayHeader();
