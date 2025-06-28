@@ -30,6 +30,7 @@ std::queue<Processes::Process*> Scheduler::readyQueue;
 
 static std::mutex queueMutex;   //protects readyQueue resource
 static std::mutex coreMapMutex; //protects 
+static std::mutex rpMutex;      // for runningProcesses
 static std::condition_variable cv;
 static std::atomic<bool> schedulerRunning(true);
 static std::atomic<bool> emulatorRunning(true);
@@ -64,7 +65,7 @@ static void cpuWorker(int coreId) {
 
         //mark process as running
         {
-            std::lock_guard<std::mutex> lock(proc->mtx);
+            std::lock_guard<std::mutex> lock(rpMutex);
             runningProcesses.push_back(proc);
         }
 
@@ -90,7 +91,7 @@ static void cpuWorker(int coreId) {
 
         //check if process is finished & mark, otherwise add back to queue 
         {
-            std::lock_guard<std::mutex> lock(proc->mtx);
+            std::lock_guard<std::mutex> lock(rpMutex);
 
             if (proc->isFinished()) {
                 finishedProcesses.push_back(proc);
