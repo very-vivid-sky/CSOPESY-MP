@@ -97,24 +97,7 @@ void ConsoleManager::setCursorPosition(int posX, int posY) const {
 
 
 void ConsoleManager::refresh() {
-
-    /* safer solution, however technically does not even actually clear the log
-    // make sure to include <windows.h> when importing !
-    // code fished from my older c project hehe :> -cy
-    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    DWORD dword;
-    GetConsoleMode(handle, &dword);
-    dword |= ENABLE_ECHO_INPUT;
-    SetConsoleMode(handle, dword);
-
-    std::cout << "\033[2J\033[H";
-    */
-
-    // using system is unsafe and this command only works in windows, not unix.
-    // TODO find a safer solution
-
     system("cls");
-
 }
 
 

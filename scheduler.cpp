@@ -24,6 +24,7 @@
 
 using namespace Scheduler;
 
+std::vector<Processes::Process*> Scheduler::allProcesses;
 std::vector<Processes::Process*> Scheduler::runningProcesses;
 std::vector<Processes::Process*> Scheduler::finishedProcesses;
 std::queue<Processes::Process*> Scheduler::readyQueue;
@@ -56,7 +57,7 @@ static void cpuWorker(int coreId) {
 
             // are there even processes still?
             // if (readyQueue.empty() <= 0) { schedulerRunning = false; }
-            if (!schedulerRunning) { std::cout << "x";  break; };
+            if (!schedulerRunning) { break; };
 
             proc = readyQueue.front();
             readyQueue.pop();
@@ -94,6 +95,7 @@ static void cpuWorker(int coreId) {
 
             if (proc->isFinished()) {
                 finishedProcesses.push_back(proc);
+                std::cout << proc->getName() << "\n";
             } else {
                 std::unique_lock<std::mutex> lock(queueMutex);
                 readyQueue.push(proc);
@@ -174,8 +176,15 @@ void SchedulerClass::setAddresses(std::vector<Processes::Process*>* addr1, std::
 
 // Adds a new process to the queue
 void SchedulerClass::addToQueue(Processes::Process* p) {
+    // resize allProcesses vector by 1000 units before hitting the limit, if necessary
+    if (allProcesses.capacity() < allProcesses.size() + 5) {
+        allProcesses.reserve(allProcesses.capacity() + 1000);
+    }
+
     std::unique_lock<std::mutex> lock(queueMutex);
-    addr_readyQueue->push(p);
+    readyQueue.push(p);
+    allProcesses.push_back(p);
+
     cv.notify_all();
 }
 

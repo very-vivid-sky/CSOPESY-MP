@@ -145,8 +145,6 @@ void MainConsole::process() {
 				std::cout << "Starting automatic process generation.\n\n";
 				Scheduler::processBuilder();
 			}
-			// Scheduler::runSchedulerTest();
-			// screen_ls();
 			break;
 		case scheduler_stop:
 			if (Scheduler::runGenerator) {
