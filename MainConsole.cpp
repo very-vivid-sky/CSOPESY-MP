@@ -106,15 +106,16 @@ void MainConsole::process() {
 
 		case screen:
 			processName = currCommand.getToken(2);
-			
 
-			if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n"; break;};
+			if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n\n"; break;};
 			if (currCommand.hasFlag("-ls")) {
 				//MainScheduler->screenList(false);
 				std::cout << "\nscreen -ls atm\n\n";
 				break;
 			}else if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
-				
+				if (currCommand.getSize() < 3) {
+					std::cout << "Invalid command format.\n\n";
+				};
 				//screen is already in the console
 				if (ConsoleManager::getInstance()->findConsole(processName)) {
 					if (currCommand.hasFlag("-r")) {
