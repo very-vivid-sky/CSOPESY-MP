@@ -51,7 +51,6 @@ static void cpuWorker(int coreId) {
 
         //get process from queue
         {
-
             std::unique_lock<std::mutex> lock(queueMutex);
             cv.wait(lock, [] { return !readyQueue.empty(); });
 
@@ -100,7 +99,6 @@ static void cpuWorker(int coreId) {
                 readyQueue.push(proc);
             }
 
-            // TODO causes out of bounds and from different containers and iterator bugs occasionally, fix pls? :pleading: -cy
             runningProcesses.erase(remove(runningProcesses.begin(), runningProcesses.end(), proc), runningProcesses.end());
         }
 
@@ -176,6 +174,7 @@ void SchedulerClass::setAddresses(std::vector<Processes::Process*>* addr1, std::
 
 // Adds a new process to the queue
 void SchedulerClass::addToQueue(Processes::Process* p) {
+    std::unique_lock<std::mutex> lock(queueMutex);
     addr_readyQueue->push(p);
     cv.notify_all();
 }
