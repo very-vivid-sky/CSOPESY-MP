@@ -56,9 +56,8 @@ void ConsoleManager::switchConsole(String consoleName) {
 
         system("cls");
         this->previousConsole = this->currentConsole;
-        this->currentConsole = this->consoleTable[consoleName];
+        this->currentConsole = this->consoleTable.at(consoleName);
         this->currentConsole->onEnabled();
-
     }
     else {
         std::cerr << "Console name " << consoleName << "not found. Was it initialized?";
@@ -127,18 +126,11 @@ void ConsoleManager::stopRunning() {
 void ConsoleManager::addConsole(String newconsoleName) {
     auto found = this->consoleTable.find(newconsoleName);
     if (found == this->consoleTable.end()) {
+
         //create the process
         Processes::Process* proc = new Processes::Process(newconsoleName);
 
-        /*
-        proc->name = newconsoleName;
-        proc->creationTime = time(0);
-        proc->totalCommands = ICommand::generateRandNum(); //generates the total number of commands 
-        proc->executedCommands = 0;
-        proc->pid = consoleTable.size();
-        proc->finished = false;
-        */
-
+        //add the process to list of proceses already 
 
         //create the console with the process
         const std::shared_ptr<ScreenConsole> consoleNew = std::make_shared<ScreenConsole>(proc);
@@ -146,6 +138,19 @@ void ConsoleManager::addConsole(String newconsoleName) {
         this->switchConsole(newconsoleName);
     }
 
+}
+
+
+void ConsoleManager::closeConsoleAndReturnToPrevious() {
+    this->tempConsole = this->currentConsole;       // tempConsole stores currentConsole
+    this->currentConsole = this->previousConsole;   // previousConsole becomes currentConsole
+    this->previousConsole = this->tempConsole;      // previousConsole stores tempConsole
+    system("cls");
+    switchConsole(this->currentConsole->getName());
+    this->consoleTable.erase(this->tempConsole->getName()); //closes the console
+
+    ConsoleManager::getInstance()->process();    // get first the process 
+    ConsoleManager::getInstance()->drawConsole(); // draw the console 
 }
 
 //constructor
@@ -178,13 +183,11 @@ ConsoleManager::ConsoleManager() {
 }
 
 
-//void ConsoleManager::addConsole(AConsole* c) {
-//   /* for (int i = 0; i < size; i++) {
-//        if ((activeConsoles[i]) == false) {
-//            activeConsoles[i] = true;
-//            allConsoles[i] = c;
-//            return;
-//        }
-//    }
-//    throw std::range_error("Tried to add a new console to an already full console handler");*/
-//}
+bool ConsoleManager::findConsole(std::string consoleName) {
+    auto consoleFound = consoleTable.find(consoleName);
+    bool found = false; 
+    if (consoleFound != consoleTable.end()) {
+        found = true;
+    }
+    return found;
+}

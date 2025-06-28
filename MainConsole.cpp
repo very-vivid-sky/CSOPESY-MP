@@ -75,9 +75,8 @@ void MainConsole::process() {
 
 	while (ConsoleManager::getInstance()->isRunning()) {
 		std::string input = InputManager::getInputWithPrompt("Main - Enter command");
-		std::string processName;
-		int idx = 1;
 		Command currCommand = Command(input);
+		std::string processName;
 
 		// unrecognized command !
 		if (currCommand.getType() == unknown) {
@@ -106,64 +105,38 @@ void MainConsole::process() {
 			break;
 
 		case screen:
-			std::cout << currCommand.getRaw();
-			if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n"; break; };
+			processName = currCommand.getToken(2);
+			
+
+			if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n"; break;};
 			if (currCommand.hasFlag("-ls")) {
 				//MainScheduler->screenList(false);
-				std::cout << "\nscreen -ls atm ";
+				std::cout << "\nscreen -ls atm\n\n";
 				break;
-			}
-
-			//idx = ConsoleHandler->searchForConsole(processName);
-
-			// exists?
-			if (idx >= 0) {
-				if (currCommand.getSize() < 3) { std::cout << "Invalid command format.\n"; break; };
-				processName = currCommand.getToken(2);
-
-				// is this a screen?
-				if (true) {
+			}else if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
+				
+				//screen is already in the console
+				if (ConsoleManager::getInstance()->findConsole(processName)) {
 					if (currCommand.hasFlag("-r")) {
-						std::cout << "\nReloading screen!\n" << processName << std::endl;
-						/*ConsoleHandler->setCurrentConsole(idx);
-						((ScreenConsole*)(ConsoleHandler->getCurrentConsole()))->setTimestampToNow();*/
-						break;
+						ConsoleManager::getInstance()->switchConsole(processName);
 					}
 					else if (currCommand.hasFlag("-s")) {
-						std::cout << "\nCreating screen!\n";
-						//ConsoleHandler->setCurrentConsole(idx);*/
-						break;
+						std::cout << "Process " << processName << " already exists. Can't have multiple processses with the same name\n";
+						//ConsoleManager::getInstance()->addConsole(processName);
 					}
 				}
-				else {
-					std::cout << "Provided screen name is invalid.\n";
+				else { //screen is not yet in the console
+					if (currCommand.hasFlag("-r")) {
+						std::cout << "Process " << processName << " can't be loaded. Maybe it's not yet created\n";
+					}
+					else if (currCommand.hasFlag("-s")) {
+						ConsoleManager::getInstance()->addConsole(processName);
+					}
 				}
-
-			}
-			else {
-				if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
-					std::cout << "Screen -r or Screen -s!\n";
-					/*	ConsoleHandler->addAndGotoConsole(new ScreenConsole(processName));*/
-					break;
-				}
-			}
-
-			if (currCommand.hasFlag("-r")) {
-				std::cout << "\nScreen -r!\n";
-
-				/*ConsoleHandler->addAndGotoConsole(new ScreenConsole( processName ));*/
-				break;
-			}
-			else if (currCommand.hasFlag("-s")) {
-				std::cout << "\nScreen -s!\n";
-				//ConsoleHandler->addAndGotoConsole(new ScreenConsole( processName ));
-				break;
-			}
-			else { std::cout << "Command not recognized for screen.\n\n"; };
-
+			}else { std::cout << "Command not recognized for screen.\n\n"; };
 			break;
-
-
+        
+        
 		case scheduler_start:
 			if (Scheduler::runGenerator) {
 				std::cout << "Automatic process generation is already running!\n\n";
