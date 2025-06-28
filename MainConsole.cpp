@@ -105,14 +105,17 @@ void MainConsole::process() {
 			break;
 
 		case screen:
-			processName = currCommand.getToken(2);
 
 			if (currCommand.getSize() < 2) { std::cout << "Invalid command format.\n\n"; break;};
 			if (currCommand.hasFlag("-ls")) {
 				//MainScheduler->screenList(false);
-				std::cout << "\nscreen -ls atm\n\n";
+				Scheduler::MainScheduler->screenList(&std::cout);
 				break;
-			} else if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
+			}
+			
+			processName = currCommand.getToken(2);
+
+			if (currCommand.hasFlag("-r") || currCommand.hasFlag("-s")) {
 				if (currCommand.getSize() < 3) {
 					std::cout << "Invalid command format.\n\n";
 					break;

@@ -89,9 +89,7 @@ void ScreenConsole::displayProcess() {
     if (targetProcess->isFinished()) {
         // finished!
         std::cout << "Finished!\n\n";
-    }
-    
-    {
+    } else {
         std::cout << "Current instruction line: " << targetProcess->getCurrentLine() << "\n";
         std::cout << "Lines of code: " << targetProcess->getTotalCommands() << "\n\n";
     }

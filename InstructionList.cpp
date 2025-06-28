@@ -80,7 +80,7 @@ bool InstructionList::lock() {
 	if (locked) { return false; }
 
 	// increment to note that this is actually usable now
-	(currentLine)++;
+	currentLine++;
 
 	// update lock list
 	lineCount = list.size();

@@ -245,6 +245,14 @@ void SchedulerClass::screenList(std::ostream *stream) {
     *stream << "-------------------------------------------------------------------------------------\n";
     {
         std::lock_guard<std::mutex> lock(coreMapMutex);
+
+        int cores_used = runningProcesses.size();
+        int cores_avail = Config::get_NUM_CPU() - cores_used;
+        float cpu_util = cores_used / Config::get_NUM_CPU();
+        *stream << "CPU utilization: " << (int)(cpu_util*100) << "%\n";
+        *stream << "Cores being used: " << cores_used << "\n";
+        *stream << "Cores available: " << cores_avail << "\n\n";
+
         *stream << "Running processes:\n";
         for (Processes::Process* proc : runningProcesses) {
             *stream
