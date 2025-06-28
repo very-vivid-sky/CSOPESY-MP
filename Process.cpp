@@ -43,7 +43,7 @@ std::string Process::getFormattedCreationTime() {
 int Process::getTotalCommands() { return instructionList.getLineCountFull(); };
 
 // Getter: gets next line int
-int Process::getNextLine() { return instructionList.getCurrentLine(); };
+int Process::getCurrentLine() { return instructionList.getCurrentLine(); };
 
 // Getter: gets pid
 int Process::getPid() { return pid; };

@@ -16,6 +16,7 @@ namespace Processes {
     };
 
     class Process {
+
         public:
             Process(std::string newName);
 
@@ -23,7 +24,7 @@ namespace Processes {
             std::time_t getCreationTime();
             std::string getFormattedCreationTime();
             int getTotalCommands();
-            int getNextLine();
+            int getCurrentLine();
             int getPid();
             int getCore();
             bool isFinished();

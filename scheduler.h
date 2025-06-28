@@ -18,6 +18,8 @@ namespace Scheduler {
 		void runSchedulerTest();
 		void setAddresses(std::vector<Processes::Process*>* addr1, std::vector<Processes::Process*>* addr2, std::queue<Processes::Process*>* addr3);
 		void addToQueue(Processes::Process* p);
+		bool processExists(std::string name);
+		Processes::Process* getProcess(std::string name);
 		// std::vector<Processes::Process*>* getRunningProcesses();
 		// std::vector<Processes::Process*>* getFinishedProcesses();
 		// std::queue<Processes::Process*>* getReadyQueue();
@@ -30,6 +32,7 @@ namespace Scheduler {
 		const int PRINTS_PER_PROCESS = 100;
 
 		void screenList(std::ostream* stream);
+		void writeReport();
 
 	private:
 		std::vector<std::thread> cpuThreads;
@@ -44,8 +47,10 @@ namespace Scheduler {
 	};
 
 	extern SchedulerClass* MainScheduler;
+
+	// Process vectors
 	extern std::vector<Processes::Process*> runningProcesses;
 	extern std::vector<Processes::Process*> finishedProcesses;
 	extern std::queue<Processes::Process*> readyQueue;
-
+	extern std::vector<Processes::Process*> allProcesses;
 };

@@ -24,6 +24,7 @@
 
 using namespace Scheduler;
 
+std::vector<Processes::Process*> Scheduler::allProcesses;
 std::vector<Processes::Process*> Scheduler::runningProcesses;
 std::vector<Processes::Process*> Scheduler::finishedProcesses;
 std::queue<Processes::Process*> Scheduler::readyQueue;
@@ -56,7 +57,7 @@ static void cpuWorker(int coreId) {
 
             // are there even processes still?
             // if (readyQueue.empty() <= 0) { schedulerRunning = false; }
-            if (!schedulerRunning) { std::cout << "x";  break; };
+            if (!schedulerRunning) { break; };
 
             proc = readyQueue.front();
             readyQueue.pop();
@@ -94,6 +95,7 @@ static void cpuWorker(int coreId) {
 
             if (proc->isFinished()) {
                 finishedProcesses.push_back(proc);
+                std::cout << proc->getName() << "\n";
             } else {
                 std::unique_lock<std::mutex> lock(queueMutex);
                 readyQueue.push(proc);
@@ -174,9 +176,32 @@ void SchedulerClass::setAddresses(std::vector<Processes::Process*>* addr1, std::
 
 // Adds a new process to the queue
 void SchedulerClass::addToQueue(Processes::Process* p) {
+    // resize allProcesses vector by 1000 units before hitting the limit, if necessary
+    if (allProcesses.capacity() < allProcesses.size() + 5) {
+        allProcesses.reserve(allProcesses.capacity() + 1000);
+    }
+
     std::unique_lock<std::mutex> lock(queueMutex);
-    addr_readyQueue->push(p);
+    readyQueue.push(p);
+    allProcesses.push_back(p);
+
     cv.notify_all();
+}
+
+// Linear searches allProcesses to see if this name exists in allProcesses
+bool SchedulerClass::processExists(std::string name) {
+    for (Processes::Process* p : allProcesses) {
+        if (p->getName() == name) { return true; }
+    }
+    return false;
+}
+
+// Linear searches and gets a process
+Processes::Process* SchedulerClass::getProcess(std::string name) {
+    for (Processes::Process* p : allProcesses) {
+        if (p->getName() == name) { return p; }
+    }
+    return nullptr;
 }
 
 /*
@@ -217,16 +242,24 @@ void SchedulerClass::screenList(bool toFile) {
 */
 
 void SchedulerClass::screenList(std::ostream *stream) {
-    *stream << "-------------------------------------------------------------------------------------\n";
+    *stream << "-------------------------------------------------------------------------------------\n\n";
     {
         std::lock_guard<std::mutex> lock(coreMapMutex);
+
+        int cores_used = runningProcesses.size();
+        int cores_avail = Config::get_NUM_CPU() - cores_used;
+        float cpu_util = cores_used / Config::get_NUM_CPU();
+        *stream << "CPU utilization: " << (int)(cpu_util*100) << "%\n";
+        *stream << "Cores being used: " << cores_used << "\n";
+        *stream << "Cores available: " << cores_avail << "\n\n";
+
         *stream << "Running processes:\n";
         for (Processes::Process* proc : runningProcesses) {
             *stream
                 << proc->getName()
                 << " (" << proc->getFormattedCreationTime()
                 << ") Core: " << proc->getCore() << " Progress: ("
-                << proc->getNextLine() << "/" << proc->getTotalCommands()
+                << proc->getCurrentLine() << "/" << proc->getTotalCommands()
                 << ")\n";
         };
         *stream << "\nFinished processes:\n";
@@ -235,9 +268,15 @@ void SchedulerClass::screenList(std::ostream *stream) {
                 << proc->getName()
                 << " (" << proc->getFormattedCreationTime()
                 << ") Progress: ("
-                << proc->getNextLine() << "/" << proc->getTotalCommands()
+                << proc->getCurrentLine() << "/" << proc->getTotalCommands()
                 << ")\n";
         };
     }
-    *stream << "-------------------------------------------------------------------------------------\n";
+    *stream << "\n-------------------------------------------------------------------------------------\n";
+}
+
+void SchedulerClass::writeReport() {
+    std::ofstream logFile("csopesy_log.txt", std::ios::trunc);
+    screenList(&logFile);
+    logFile.close();
 }
